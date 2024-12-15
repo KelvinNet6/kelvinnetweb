@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interlink .NET</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sidebar Menu Button -->
+    <button class="sidebar-btn" onclick="toggleSidebar()">&#9776;</button>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <ul>
+            <li><a href="#header" onclick="closeSidebar()">Home</a></li>
+            <li><a href="#about" onclick="closeSidebar()">About Us</a></li>
+            <li><a href="#products" onclick="closeSidebar()">Our Offers</a></li>
+            <li><a href="#contact" onclick="closeSidebar()">Contact Us</a></li>
+        </ul>
+    </div>
+<br>
+    <!-- Header Section -->
+    <header class="header" id="header">
+        <div class="nav-container">
+            <div class="logo">INTER<span>LINK .NET</span></div>
+        </div>
+        <div class="header-content">
+            <h1>INTER<span>LINK .NET</span></h1>
+            <h2>Software Engineering</h2>
+            <a href="#footer-nav" class="explore-btn"></a> 
+        </div>
+    </header>
+    <section class="home">
+        <video id="background-video" class="home-video" autoplay loop muted>
+            <source src="you're coding while starting to feel like you've understood the meaning of life (playlist).mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="home-content">
+            <h1>Building Tomorrow’s Software, Today</h1>
+            <p>Innovative solutions for a smarter, more connected world</p>
+        </div>
+        <button class="mute-btn" onclick="toggleMute()">
+            <i id="mute-icon" class="fas fa-volume-mute"></i>
+        </button>
+    </section>
+    <br><br>
+    <section id="about" class="about">
+        <h2>About Us</h2>
+        <div class="about-container">
+            <div class="about-info">
+                <h2>Information</h2>
+                <p>At Inter<span>link</span>, we don't just build software — we craft digital experiences that drive progress. Our mission is to help businesses and individuals thrive by creating software that is intuitive, agile, and ahead of its time. <br>From custom applications to AI-powered systems, we provide tailored solutions that connect, simplify, and enhance the way you live and work. With a forward-thinking mindset and an unwavering commitment to excellence, we are innovating for a smarter, more connected world.</p>
+                <button class="about-btn">View More</button>
+            </div>
+            <div class="about-image">
+                <img src="Capture.PNG" alt="About Us Image">
+            </div>
+        </div>
+    </section>
+    <section id="products" class="products">
+        <h2>We OFFER</h2>
+        <div class="product-container">
+            <div class="product-card">
+                <img src="R.jpeg" alt="Product">
+                <h3 class="product-title">Database Design & Development</h3>
+                <p class="product-description">Our MySQL database services provide scalable, high-performance solutions for design, optimization, and maintenance. We ensure secure data storage, efficient retrieval, and reliable backups to support your business growth.</p>
+            </div>
+            <div class="product-card">
+                <img src="laptop-turned-on-macbook-pro-wit-programming-codes-display-coding-coding-image.jpg" alt="Product">
+                <br><br>
+                <h3 class="product-title">Web Development</h3>
+                <p class="product-description">We offer comprehensive web development services using HTML, CSS, JavaScript, AJAX, PHP, as well as ASP.Net and .NET Core. Our team builds responsive, dynamic, and secure websites tailored to your needs from front-end design to robust server-side solutions to deliver high-quality, scalable web applications.</p>
+            </div>
+            <div class="product-card">
+                <img src="integrations.jpeg" alt="Product">
+                <br><br><br><br>
+                <h3 class="product-title">Web Integrations</h3>
+                <p class="product-description">We specialize in web integrations using RESTful APIs, enabling seamless communication between different systems and applications. Our API development services focus on creating efficient, secure, and scalable APIs to connect your web platforms, enhance functionality, and streamline data exchange across diverse environments.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2>Contact Us</h2>
+        <div class="contact-container">
+            <div class="location-map">
+                <h3>Our Location</h3>
+                <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="400"></iframe>
+            </div>
+            <div class="contact-info">
+                <br>
+                <h3>Connect with us on:</h3>
+                <br>
+                <div class="social-media-columns">
+                    <div class="social-media-left">
+                        <ul class="social-media-links">
+                            <li><a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>Facebook</li>
+                            <li><a href="mailto:interlink.net9@gmail.com"><i class="fas fa-envelope"></i></a>Email</li>
+                        </ul>
+                    </div>
+                    <div class="social-media-right">
+                        <ul class="social-media-links">
+                            <li><a href="https://wa.me/27672911605" target="_blank"><i class="fab fa-whatsapp"></i></a>WhatApp</li>
+                            <li><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>Instagram</li>
+                            <li><a href="tel:+27672911605"><i class="fas fa-phone-alt"></i></a>Phone</li>
+                        </ul>
+                    </div>
+                </div>
+                <br>
+                <h3>Our Physical Location:</h3>
+                <br>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> 71 Santa Rosa, Franschhoek, Western Cape, South Africa</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-nav">
+                <p><strong>Web Links:</strong></p>
+                <ul>
+                    <li><a href="#header">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#products">Our Products</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <p><strong>Follow Us On:</strong></p>
+                <ul>
+                    <li><a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                    <li><a href="mailto:interlink.net9@gmail.com"><i class="fas fa-envelope"></i> Email</a></li>
+                    <li><a href="https://wa.me/27672911605" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                    <li><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                </ul>
+            </div>
+            <div class="footer-location">
+                <p><strong>Our Location:</strong></p>
+                <address>
+                    71 Santa Rosa<br>
+                    Franschhoek, Westen Cape<br>
+                    South Africa
+                </address>
+            </div>
+            <div class="footer-subscribe">
+                <form>
+                    <p><strong>Subscriptions</strong></p>
+                    <label for="email">Subscribe to our newsletter:</label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript-->
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+        }
+        //-------------------JavaScript for Backgroung video------------------------//
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+        }
+
+        function toggleMute() {
+            var video = document.getElementById('background-video');
+            var muteIcon = document.getElementById('mute-icon');
+            if (video.muted) {
+                video.muted = false;
+                muteIcon.classList.remove('fa-volume-mute');
+                muteIcon.classList.add('fa-volume-up');
+            } else {
+                video.muted = true;
+                muteIcon.classList.remove('fa-volume-up');
+                muteIcon.classList.add('fa-volume-mute');
+            }
+        }
+    </script>
+</body>
+</html>
