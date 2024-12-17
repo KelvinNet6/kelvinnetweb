@@ -559,3 +559,95 @@ footer .footer-location address {
     cursor: pointer;
     border-radius: 5px;
 }
+/* General container styling */
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Behind the Success Section */
+.behind-success {
+    padding: 50px 0;
+    background-color: #000000;
+    color: rgb(207, 238, 232);
+}
+
+.behind-success .success-info {
+    margin-bottom: 30px;
+}
+
+.behind-success .success-info h3 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.behind-success .success-info p {
+    font-size: 1.2em;
+}
+
+.behind-success .team-member {
+    display: flex;
+    align-items: center;
+}
+
+.behind-success .team-member .person-info {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.behind-success .person-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.behind-success .person-details h4 {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+}
+
+.behind-success .person-details p {
+    font-size: 1.2em;
+}
+
+/* Company Operators Section */
+.company-operators {
+    padding: 50px 0;
+    background-color: #000000;
+    color: rgb(207, 238, 232);
+}
+
+.company-operators h3 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+}
+
+.company-operators .operators-list {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.company-operators .operator-card {
+    text-align: center;
+    width: 23%;
+}
+
+.company-operators .operator-card img {
+    width: 100%;
+    border-radius: 50%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.company-operators .operator-card h4 {
+    font-size: 1.5em;
+    margin-top: 10px;
+}
+
+.company-operators .operator-card p {
+    font-size: 1.2em;
+}
