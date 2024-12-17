@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sidebar Menu Button -->
+    <button class="sidebar-btn" onclick="toggleSidebar()">&#9776;</button>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <ul>
+            <li><a href="#header" onclick="closeSidebar()">Home</a></li>
+            <li><a href="#about" onclick="closeSidebar()">About Us</a></li>
+            <li><a href="#products" onclick="closeSidebar()">Our Offers</a></li>
+            <li><a href="#contact" onclick="closeSidebar()">Contact Us</a></li>
+        </ul>
+    </div>
+    <!-- Header Section -->
+    <header class="about-header" id="header">
+        <div class="nav-container">
+            <div class="logo">Kelvin<span>NET</span></div>
+        </div>
+        <div class="header-content">
+            <div class="overlay"></div>
+            <h1>INTER<span>LINK .NET</span></h1>
+            <h2>Software Engineering</h2>
+            <a href="#footer-nav" class="explore-btn"></a> 
+        </div>
+    </header>
+
+<!-- JavaScript-->
+<script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+    }
+
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+    }
+</script>
+</body>
+</html>
