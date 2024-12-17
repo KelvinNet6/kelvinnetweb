@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Interlink</title>
+    <title>About Us</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,7 +13,7 @@
     <!-- Sidebar -->
     <div id="sidebar" class="sidebar">
         <ul>
-             <li><a href="index.html#header" onclick="closeSidebar()">Home</a></li>
+            <li><a href="index.html#header" onclick="closeSidebar()">Home</a></li>
             <li><a href="index.html#about" onclick="closeSidebar()">About Us</a></li>
             <li><a href="index.html#products" onclick="closeSidebar()">Our Offers</a></li>
             <li><a href="index.html#contact" onclick="closeSidebar()">Contact Us</a></li>
@@ -24,7 +24,6 @@
         <div class="nav-container">
             <div class="logo">Kelvin<span>NET</span></div>
         </div>
-        <br>
         <div class="header-content">
             <div class="overlay"></div>
             <h1>INTER<span>LINK .NET</span></h1>
@@ -32,7 +31,106 @@
             <a href="#footer-nav" class="explore-btn"></a> 
         </div>
     </header>
+<!-- New Section: Behind the Success -->
+<section id="behind-success" class="behind-success">
+    <div class="container">
+        <div class="success-info">
+            <h3>Behind the Success</h3>
+            <p>Our company’s success is driven by the relentless dedication of our team, the quality of our products, and our commitment to our clients. We thrive on delivering innovative solutions that make a difference.</p>
+        </div>
+        <h3>Our Team Leader</h3>
+        <div class="team-member">
+           
+           
+            <div class="person-info">
+                <img src="WhatsApp Image 2024-12-17 at 10.29.36_a3b44226.jpg" alt="Team Leader" class="person-image">
+                <div class="person-details">
+                    <h4>Kelvin Net</h4>
+                    <p>Software Engeneer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
+<!-- New Section: Company Operators -->
+<section id="company-operators" class="company-operators">
+    <div class="container">
+        <h3>Meet Our Operators</h3>
+        <div class="operators-list">
+            <div class="operator-card">
+                <img src="WhatsApp Image 2024-12-17 at 10.29.36_a3b44226.jpg" alt="Operator 1">
+                <h4>Jane Smith</h4>
+                <p>Operations Manager</p>
+            </div>
+            <div class="operator-card">
+                <img src="WhatsApp Image 2024-12-17 at 10.29.36_a3b44226.jpg" alt="Operator 2">
+                <h4>Michael Johnson</h4>
+                <p>Project Coordinator</p>
+            </div>
+            <div class="operator-card">
+                <img src="WhatsApp Image 2024-12-17 at 10.29.36_a3b44226.jpg" alt="Operator 3">
+                <h4>Alice Brown</h4>
+                <p>Marketing Director</p>
+            </div>
+            <div class="operator-card">
+                <img src="WhatsApp Image 2024-12-17 at 10.29.36_a3b44226.jpg" alt="Operator 4">
+                <h4>David Wilson</h4>
+                <p>Lead Developer</p>
+            </div>
+        </div>
+    </div>
+</section>
+<br>
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-nav">
+            <p><strong>Web Links:</strong></p>
+            <ul>
+                <li><a href="#header">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#products">Our Products</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-social">
+            <p><strong>Follow Us On:</strong></p>
+            <ul>
+                <li><a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                <li><a href="mailto:interlink.net9@gmail.com"><i class="fas fa-envelope"></i> Email</a></li>
+                <li><a href="https://wa.me/27672911605" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                <li><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+            </ul>
+        </div>
+        <div class="footer-location">
+            <p><strong>Our Location:</strong></p>
+            <address>
+                71 Santa Rosa<br>
+                Franschhoek, Westen Cape<br>
+                South Africa
+            </address>
+        </div>
+        <div class="footer-subscribe">
+            <form>
+                <p><strong>Subscriptions</strong></p>
+                <label for="email">Subscribe to our newsletter:</label>
+                <input type="email" id="email" placeholder="Enter your email">
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript-->
+<script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+    }
+</script>
 <!-- JavaScript-->
 <script>
     function toggleSidebar() {
