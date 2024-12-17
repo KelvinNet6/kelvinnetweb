@@ -24,7 +24,7 @@ header {
     color: white;
     padding: 40px 0;
 }
-.about-header {
+#about-header {
     position: relative;
     background: url('About.jpeg') no-repeat center center/cover;
     color: white;
