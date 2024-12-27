@@ -148,6 +148,13 @@
                 muteIcon.classList.add('fa-volume-mute');
             }
         }
+
+        window.onload = function() {
+        var video = document.getElementById("background-video");
+        video.play().catch(function(error) {
+            console.log("Error playing video:", error);
+        });
+    };
     </script>
 </body>
     <footer>
