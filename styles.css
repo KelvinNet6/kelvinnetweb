@@ -234,7 +234,25 @@ h2 {
     padding: 0 10px;
     line-height: 1.4;
 }
+/* Media Query for mobile responsiveness */
+@media (max-width: 768px) {
+    .products .product-container {
+        justify-content: center; /* Centering the products */
+    }
 
+    .product-card {
+        width: 100%; /* Cards take full width on small screens */
+        margin-bottom: 20px; /* Spacing between cards */
+    }
+
+    .product-title {
+        font-size: 16px; /* Slightly smaller title on small screens */
+    }
+
+    .product-description {
+        font-size: 12px; /* Smaller description text for readability */
+    }
+}
 .contact {
     padding: 20px;
 }
