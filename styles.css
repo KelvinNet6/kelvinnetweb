@@ -298,145 +298,116 @@ h2 {
 .contact-info ul li i {
     margin-right: 10px;
 }
-
+/* Footer Styling */
 footer {
-    background-color: #606c6e;
-    color: white;
-    padding: 40px 0;
-    text-align: center;
-   border-top-right-radius: 30px;
-   border-top-left-radius: 30px;
+  background-color: #383838;
+  color: #fff;
+  padding: 40px 20px;
+  text-align: center;
+  position: relative;
 }
 
-footer .footer-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 20px;
-    justify-items: center;
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-footer .footer-nav ul {
-    list-style: none;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: center;
+/* Footer Text */
+footer p {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #ccc;
 }
 
-footer .footer-social ul {
-    list-style: none;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: center;
+/* Subscription Section */
+.subscription-section {
+  margin-top: 30px;
 }
 
-footer .footer-subscribe form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
+.subscription-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #fff;
 }
 
-footer .footer-subscribe input {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    width: 250px;
+.subscription-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
-footer .footer-subscribe button {
-    padding: 10px 20px;
-    background-color: #ff6347;
-    color: white;
-    border: none;
-    border-radius: 5px;
+.email-input {
+  padding: 10px;
+  font-size: 1rem;
+  width: 250px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
 }
 
-footer .footer-subscribe button:hover {
-    background-color: #ff4500;
+.subscribe-btn {
+  padding: 10px 20px;
+  background-color: #ff5733;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-footer .footer-location {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-    color: white;
+.subscribe-btn:hover {
+  background-color: #c53e1e;
 }
 
-footer .footer-location address {
-    font-style: normal;
-    text-align: center;
+/* Social Media Icons */
+.footer-social {
+  margin-top: 20px;
+}
+
+.footer-social a {
+  color: #fff;
+  font-size: 1.5rem;
+  margin: 0 15px;
+  transition: color 0.3s ease;
+}
+
+.footer-social a:hover {
+  color: #ff5733; /* Hover color for icons */
 }
 
 @media (max-width: 768px) {
-    .about-container {
-        flex-direction: column;
-    }
+  /* Adjustments for the about-section to ensure it fits on smaller screens */
+  .about-section {
+    flex-direction: column; 
+    align-items: center; 
+    padding: 15px; /* Reduced padding for better fit */
+    gap: 15px; /* Reduces space between items */
+  }
 
-    .product-card {
-        width: 48%;
-    }
+  .container-left,
+  .container-right {
+    width: 100%; /* Full width on mobile */
+    margin-bottom: 15px; /* Space between the left and right containers */
+    padding: 10px; /* Adjusted padding */
+  }
 
-    .contact-container {
-        flex-direction: column;
-    }
+  .container-right {
+    background-color: #98adb1;
+    padding: 15px; /* Adjusted padding */
+    border-radius: 10px;
+  }
 
-    footer .footer-container {
-        grid-template-columns: 2fr 1fr; 
-    }
-
-    footer .footer-nav,
-    footer .footer-social,
-    footer .footer-subscribe {
-        text-align: center;
-    }
-    .social-media-columns {
-        flex-direction: column;
-    }
-    .contact-container {
-        flex-direction: column; 
-        align-items: center; 
-    }
-
-    .social-media-columns {
-        flex-direction: column; 
-        gap: 15px;
-    }
-
-    .social-media-left, .social-media-right {
-        flex: none;
-        width: 100%; /* Make them fill the screen */
-    }
-
-    .location-map {
-        width: 100%;
-        min-width: 100%;
-    }
-
-    .contact-info {
-        width: 100%;
-    }
-
-    .contact-info h3, .contact-info ul {
-        text-align: center; /* Center-align the headings and lists on mobile */
-    }
+  /* Button adjustment for mobile */
+  .btn {
+    width: 70%; /* Adjusted button width to fit better on smaller screens */
+    text-align: center;
+    padding: 10px 20px; /* Ensure proper padding */
+  }
 }
 
-@media (max-width: 480px) {
-    .product-card {
-        width: 100%;
-    }
-
-    footer .footer-subscribe input {
-        width: 100%;
-    }
-}
 /* Sidebar Styles */
 .sidebar {
     position: fixed;
