@@ -156,21 +156,20 @@
         });
     };
     </script>
-
-     <p id="responseMessage"></p>
 </body>
     <footer>
     <div class="footer-container">
         <p>&copy; 2024 Kelvin's Net Web. All Rights Reserved.</p>
         
         <!-- Subscription Section -->
-        <div class="subscription-section">
-            <h3>Subscribe for Updates</h3>
-            <form action="#" method="post" class="subscription-form">
-                <input type="email" name="email" placeholder="Enter your email" required class="email-input">
-                <button type="submit" class="subscribe-btn">Subscribe</button>
-            </form>
-        </div>
+<div class="subscription-section">
+    <h3>Subscribe for Updates</h3>
+    <form id="subscriptionForm" action="#" method="post" class="subscription-form">
+        <input type="email" id="email" name="email" placeholder="Enter your email" required class="email-input">
+        <button type="submit" class="subscribe-btn">Subscribe</button>
+    </form>
+    <div id="responseMessage"></div> <!-- This is where the response will be displayed -->
+</div>
         <!-- Social Media Icons -->
         <div class="footer-social">
             <a href="https://www.facebook.com/kevicode" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
@@ -191,7 +190,7 @@
           fetch('https://script.google.com/macros/s/AKfycbwcTPQu7qoKKNExgsiVZ50zSDy4-8JZynNMlJJeCpmouks4z-kUFZXoJTPPIvhVQY7v/exec', {
             method: 'POST',
             body: new URLSearchParams({
-              email: email
+            email: email
             }),
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
