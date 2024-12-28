@@ -156,6 +156,8 @@
         });
     };
     </script>
+
+     <p id="responseMessage"></p>
 </body>
     <footer>
     <div class="footer-container">
@@ -169,7 +171,6 @@
                 <button type="submit" class="subscribe-btn">Subscribe</button>
             </form>
         </div>
-        
         <!-- Social Media Icons -->
         <div class="footer-social">
             <a href="https://www.facebook.com/kevicode" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
@@ -178,5 +179,36 @@
             <a href="https://www.linkedin.com/in/kel-vin-386434343" target="_blank"><i class="fab fa-linkedin"></i></a>
         </div>
     </div>
+
+         <script>
+      document.getElementById('subscriptionForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        var email = document.getElementById('email').value;
+
+        if (email) {
+          // Sending the form data to the Google Apps Script Web App
+          fetch('https://script.google.com/macros/s/AKfycbwcTPQu7qoKKNExgsiVZ50zSDy4-8JZynNMlJJeCpmouks4z-kUFZXoJTPPIvhVQY7v/exec', {
+            method: 'POST',
+            body: new URLSearchParams({
+              email: email
+            }),
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          })
+          .then(response => response.text())
+          .then(responseMessage => {
+            document.getElementById('responseMessage').innerText = responseMessage;
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('responseMessage').innerText = 'An error occurred. Please try again.';
+          });
+        } else {
+          alert('Please enter a valid email address.');
+        }
+      });
+    </script>
 </footer>
 </html>
