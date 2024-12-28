@@ -178,36 +178,43 @@
             <a href="https://www.linkedin.com/in/kel-vin-386434343" target="_blank"><i class="fab fa-linkedin"></i></a>
         </div>
     </div>
+<!-- javascript Code for Email Subscription -->
+<script>
+document.getElementById('subscriptionForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
 
-         <script>
-      document.getElementById('subscriptionForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent the default form submission
+    var email = document.getElementById('email').value;
 
-        var email = document.getElementById('email').value;
+    // Basic email validation in JavaScript
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+        alert('Please enter a valid email address.');
+        return;
+    }
 
-        if (email) {
-          // Sending the form data to the Google Apps Script Web App
-          fetch('https://script.google.com/macros/s/AKfycbwcTPQu7qoKKNExgsiVZ50zSDy4-8JZynNMlJJeCpmouks4z-kUFZXoJTPPIvhVQY7v/exec', {
-            method: 'POST',
-            body: new URLSearchParams({
+    console.log(email); // Debugging step: check if email is correctly captured
+
+    // Sending the form data to the Google Apps Script Web App
+    fetch('https://script.google.com/macros/s/AKfycbwcTPQu7qoKKNExgsiVZ50zSDy4-8JZynNMlJJeCpmouks4z-kUFZXoJTPPIvhVQY7v/exec', {
+        method: 'POST',
+        body: new URLSearchParams({
             email: email
-            }),
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            }
-          })
-          .then(response => response.text())
-          .then(responseMessage => {
-            document.getElementById('responseMessage').innerText = responseMessage;
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('responseMessage').innerText = 'An error occurred. Please try again.';
-          });
-        } else {
-          alert('Please enter a valid email address.');
+        }),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
         }
-      });
-    </script>
+    })
+    .then(response => response.text())
+    .then(responseMessage => {
+        document.getElementById('responseMessage').innerText = responseMessage;
+        
+        // Clear the email input field after successful subscription
+        document.getElementById('email').value = '';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('responseMessage').innerText = 'An error occurred. Please try again.';
+    });
+});
+</script>
 </footer>
 </html>
