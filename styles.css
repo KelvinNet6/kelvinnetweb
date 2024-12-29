@@ -805,4 +805,57 @@ label {
   }
 }
 
+/* New Section with Background Image */
+.why-contact {
+  background-image: url('contact.jpg'); 
+  background-size: cover; 
+  background-position: center; 
+  padding: 80px 20px; 
+  color: #fff; 
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px; 
+}
 
+.content-wrapper {
+  max-width: 800px; 
+  text-align: center;
+}
+
+.bold-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Mobile Responsiveness - for screens below 768px */
+@media (max-width: 768px) {
+  .why-contact {
+    height: 300px; /* Reduce the height for mobile devices */
+    padding: 60px 20px; /* Adjust padding for mobile */
+  }
+
+  .content-wrapper {
+    max-width: 90%; /* Make the content wrapper take more space on mobile */
+  }
+
+  h2 {
+    font-size: 1.5rem; /* Reduce heading size for mobile */
+  }
+
+  .bold-text {
+    font-size: 1rem; /* Adjust font size for mobile */
+  }
+}
+
+/* Mobile Responsiveness - for smaller screens below 480px */
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.2rem; /* Further reduce the heading size */
+  }
+
+  .bold-text {
+    font-size: 0.9rem; /* Adjust the font size of the bold text */
+  }
+}
