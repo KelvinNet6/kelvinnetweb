@@ -840,7 +840,7 @@ label {
   }
 
   h2 {
-    font-size: 1.2rem; 
+    font-size: 1rem; 
   }
 
   .bold-text {
@@ -850,7 +850,7 @@ label {
 
 @media (max-width: 480px) {
   h2 {
-    font-size: 1.2rem; 
+    font-size: 1rem; 
   }
 
   .bold-text {
