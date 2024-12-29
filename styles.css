@@ -681,4 +681,118 @@ footer p {
         font-size: 1.1em;  /* Adjusted font size for smaller screens */
     }
 }
+/* Basic styles */
+.about {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px;
+  background-color: #f9f9f9;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+}
+
+.container-1, .container-2 {
+  width: 48%;
+}
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.progress-bar-container {
+  width: 100%;
+}
+
+label {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.progress {
+  width: 100%;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 10px;
+  background-color: #4caf50;
+}
+
+.container-2 .statistics {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+}
+
+.stat-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.stat-number span {
+  font-size: 1.2rem;
+  color: #888;
+}
+
+/* Mobile Responsiveness - for screens below 768px (tablets and phones) */
+@media (max-width: 768px) {
+  .about {
+    padding: 20px;
+    flex-direction: column; /* Stack the containers vertically */
+    align-items: center; /* Center the content */
+  }
+
+  .container-1, .container-2 {
+    width: 100%; /* Make the containers take full width */
+    margin-bottom: 20px; /* Space between the containers */
+  }
+
+  h2 {
+    font-size: 1.5rem; /* Adjust heading size for mobile */
+    text-align: center; /* Center-align the headings */
+  }
+
+  .progress-bar-container {
+    margin-bottom: 15px; /* Add some space between the progress bars */
+  }
+
+  .stat-item {
+    flex-direction: column; /* Stack the number and label vertically */
+    align-items: center;
+  }
+
+  .stat-number {
+    font-size: 1.2rem; /* Adjust stat number font size */
+  }
+}
+
+/* Mobile Responsiveness - for smaller screens (below 480px) */
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.2rem; /* Further reduce the heading size */
+  }
+
+  .progress-bar-container {
+    margin-bottom: 10px;
+  }
+
+  .stat-number {
+    font-size: 1rem; /* Adjust the font size of the stat number */
+  }
+
+  .stat-number span {
+    font-size: 1rem; /* Adjust the font size of the plus sign */
+  }
+}
 
