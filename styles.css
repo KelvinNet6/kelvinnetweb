@@ -682,14 +682,6 @@ footer p {
     }
 }
 /* Basic styles */
-.about {
-  display: flex;
-  justify-content: space-between;
-  padding: 40px;
-  background-color: #f9f9f9;
-  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-}
-
 .container-1, .container-2 {
   width: 48%;
 }
