@@ -807,7 +807,7 @@ label {
 
 /* New Section with Background Image */
 .why-contact {
-  background-image: url('contact.jpg'); 
+  background-image: url('Contact.jpg'); 
   background-size: cover; 
   background-position: center; 
   padding: 80px 20px; 
