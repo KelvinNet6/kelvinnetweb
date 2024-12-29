@@ -840,11 +840,11 @@ label {
   }
 
   h2 {
-    font-size: 1.5rem; 
+    font-size: 1.2rem; 
   }
 
   .bold-text {
-    font-size: 1.5rem; 
+    font-size: 1.8rem; 
   }
 }
 
@@ -854,6 +854,6 @@ label {
   }
 
   .bold-text {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
 }
