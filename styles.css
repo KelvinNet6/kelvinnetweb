@@ -682,8 +682,24 @@ footer p {
     }
 }
 /* Basic styles */
+.about {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 20px; /* Adjusted padding for top/bottom and left/right */
+  background-color: #000; /* Set background color to black */
+  color: #fff; /* Set text color to white for contrast */
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+}
+
 .container-1, .container-2 {
   width: 48%;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #fff; /* Make heading text white */
 }
 
 .progress-container {
@@ -699,19 +715,20 @@ footer p {
 label {
   font-size: 1rem;
   margin-bottom: 5px;
+  color: #fff; /* White color for labels */
 }
 
 .progress {
   width: 100%;
   height: 20px;
-  background-color: #e0e0e0;
+  background-color: #444; /* Dark gray background for the progress bar */
   border-radius: 10px;
 }
 
 .progress-bar {
   height: 100%;
   border-radius: 10px;
-  background-color: #4caf50;
+  background-color: #4caf50; /* Green for progress */
 }
 
 .container-2 .statistics {
@@ -729,18 +746,18 @@ label {
 .stat-number {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
+  color: #fff; /* White color for stat numbers */
 }
 
 .stat-number span {
   font-size: 1.2rem;
-  color: #888;
+  color: #bbb; /* Light gray for the plus sign */
 }
 
 /* Mobile Responsiveness - for screens below 768px (tablets and phones) */
 @media (max-width: 768px) {
   .about {
-    padding: 20px;
+    padding: 20px; /* Adjusted padding for mobile */
     flex-direction: column; /* Stack the containers vertically */
     align-items: center; /* Center the content */
   }
@@ -787,4 +804,5 @@ label {
     font-size: 1rem; /* Adjust the font size of the plus sign */
   }
 }
+
 
