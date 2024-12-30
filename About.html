@@ -143,6 +143,37 @@
     function closeSidebar() {
         document.getElementById('sidebar').classList.remove('open');
     }
+    //------------------------------------------------spining animation script--------------------------------//
+    document.getElementById('subscriptionForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent actual form submission
+    
+    // Show the loading spinner
+    document.getElementById('loading').style.display = 'flex';
+
+    // Grab the email input value
+    const email = document.getElementById('email').value;
+
+    // Simulate a network request (like an API call)
+    setTimeout(function() {
+        // Hide the loading spinner after the process is complete
+        document.getElementById('loading').style.display = 'none';
+
+        // Simulate a successful subscription response (you can modify this logic based on actual server response)
+        const success = true;  // You can change this to `false` to simulate failure
+        
+        // Display response message
+        const responseMessage = document.getElementById('responseMessage');
+        if (success) {
+            responseMessage.innerHTML = `<p>Thank you for subscribing with ${email}! We’ll keep you updated.</p>`;
+            responseMessage.style.color = 'green';
+        } else {
+            responseMessage.innerHTML = `<p>There was an error with your subscription. Please try again later.</p>`;
+            responseMessage.style.color = 'red';
+        }
+
+    }, 3000); // Adjust the delay as needed (simulating a 3-second request)
+});
+
 </script>
 </body>
   <footer>
