@@ -185,54 +185,53 @@
             <a href="https://www.linkedin.com/in/kel-vin-322087344" target="_blank"><i class="fab fa-linkedin"></i></a>
         </div>
     </div>
-<!-- javascript Code for Email Subscription -->
-<script>
-document.getElementById('subscriptionForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent the default form submission
+ <!-- JavaScript for Email Subscription -->
+    <script>
+    document.getElementById('subscriptionForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent default form submission
 
-    var email = document.getElementById('email').value;
+        var email = document.getElementById('email').value;
 
-    // Basic email validation in JavaScript
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-        alert('Please enter a valid email address.');
-        return;
-    }
-
-    console.log(email); // Debugging step: check if email is correctly captured
-
-    // Show the loading spinner
-    document.getElementById('loading').style.display = 'flex';
-
-    // Sending the form data to the Google Apps Script Web App
-    fetch('https://script.google.com/macros/s/AKfycbwcTPQu7qoKKNExgsiVZ50zSDy4-8JZynNMlJJeCpmouks4z-kUFZXoJTPPIvhVQY7v/exec', {
-        method: 'POST',
-        body: new URLSearchParams({
-            email: email
-        }),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+        // Basic email validation in JavaScript
+        if (!email || !/\S+@\S+\.\S+/.test(email)) {
+            alert('Please enter a valid email address.');
+            return;
         }
-    })
-    .then(response => response.text())
-    .then(responseMessage => {
-        // Hide the loading spinner after response is received
-        document.getElementById('loading').style.display = 'none';
 
-        // Show the response message
-        document.getElementById('responseMessage').innerText = responseMessage;
-        
-        // Clear the email input field after successful subscription
-        document.getElementById('email').value = '';
-    })
-    .catch(error => {
-        // Hide the loading spinner if there is an error
-        document.getElementById('loading').style.display = 'none';
+        // Show the loading spinner
+        document.getElementById('loading').style.display = 'flex';
 
-        console.error('Error:', error);
-        document.getElementById('responseMessage').innerText = 'An error occurred. Please try again.';
+        // Send form data to Google Apps Script Web App
+        fetch('https://script.google.com/macros/s/AKfycbwcTPQu7qoKKNExgsiVZ50zSDy4-8JZynNMlJJeCpmouks4z-kUFZXoJTPPIvhVQY7v/exec', {
+            method: 'POST',
+            body: new URLSearchParams({
+                email: email
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+        .then(response => response.text())
+        .then(responseMessage => {
+            // Hide the loading spinner after response is received
+            document.getElementById('loading').style.display = 'none';
+
+            // Show the response message from the backend (e.g., email already subscribed or success)
+            document.getElementById('responseMessage').innerText = responseMessage;
+            
+            // If subscription was successful, clear the email input field
+            if (responseMessage === "Subscription successful!") {
+                document.getElementById('email').value = '';
+            }
+        })
+        .catch(error => {
+            // Hide the loading spinner if an error occurs
+            document.getElementById('loading').style.display = 'none';
+
+            console.error('Error:', error);
+            document.getElementById('responseMessage').innerText = 'An error occurred. Please try again later.';
+        });
     });
-});
-
-</script>
+    </script>
 </footer>
 </html>
