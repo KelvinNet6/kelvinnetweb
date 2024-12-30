@@ -157,7 +157,7 @@
     };
     </script>
 </body>
-    <footer>
+  <footer>
     <div class="footer-container">
         <p>&copy; 2024 Kelvin's Net Web. All Rights Reserved.</p>
         
@@ -168,12 +168,19 @@
         <input type="email" id="email" name="email" placeholder="Enter your email" required class="email-input">
         <button type="submit" class="subscribe-btn">Subscribe</button>
     </form>
-    <div id="responseMessage"></div> <!-- This is where the response will be displayed -->
+    
+    <!-- The loading spinner -->
+    <div id="loading" class="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Response message -->
+    <div id="responseMessage"></div>
 </div>
         <!-- Social Media Icons -->
         <div class="footer-social">
             <a href="https://www.facebook.com/kevicode" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-             <a href="tel:+27672911605" class="social-icon"><i class="fas fa-phone-alt"></i></a>
+            <a href="tel:+27672911605" class="social-icon"><i class="fas fa-phone-alt"></i></a>
             <a href="mailto:kelvin.net6@gmail.com" target="_blank" class="social-icon"><i class="fas fa-envelope"></i></a>
             <a href="https://www.linkedin.com/in/kel-vin-322087344" target="_blank"><i class="fab fa-linkedin"></i></a>
         </div>
@@ -193,6 +200,9 @@ document.getElementById('subscriptionForm').addEventListener('submit', function(
 
     console.log(email); // Debugging step: check if email is correctly captured
 
+    // Show the loading spinner
+    document.getElementById('loading').style.display = 'flex';
+
     // Sending the form data to the Google Apps Script Web App
     fetch('https://script.google.com/macros/s/AKfycbwcTPQu7qoKKNExgsiVZ50zSDy4-8JZynNMlJJeCpmouks4z-kUFZXoJTPPIvhVQY7v/exec', {
         method: 'POST',
@@ -205,16 +215,24 @@ document.getElementById('subscriptionForm').addEventListener('submit', function(
     })
     .then(response => response.text())
     .then(responseMessage => {
+        // Hide the loading spinner after response is received
+        document.getElementById('loading').style.display = 'none';
+
+        // Show the response message
         document.getElementById('responseMessage').innerText = responseMessage;
         
         // Clear the email input field after successful subscription
         document.getElementById('email').value = '';
     })
     .catch(error => {
+        // Hide the loading spinner if there is an error
+        document.getElementById('loading').style.display = 'none';
+
         console.error('Error:', error);
         document.getElementById('responseMessage').innerText = 'An error occurred. Please try again.';
     });
 });
+
 </script>
 </footer>
 </html>
