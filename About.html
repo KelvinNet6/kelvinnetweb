@@ -143,7 +143,6 @@
     function closeSidebar() {
         document.getElementById('sidebar').classList.remove('open');
     }
-    //------------------------------------------------spining animation script--------------------------------//
     document.getElementById('subscriptionForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent actual form submission
     
@@ -219,6 +218,9 @@ document.getElementById('subscriptionForm').addEventListener('submit', function(
 
     console.log(email); // Debugging step: check if email is correctly captured
 
+    // Show the loading spinner
+    document.getElementById('loading').style.display = 'flex';
+
     // Sending the form data to the Google Apps Script Web App
     fetch('https://script.google.com/macros/s/AKfycbwcTPQu7qoKKNExgsiVZ50zSDy4-8JZynNMlJJeCpmouks4z-kUFZXoJTPPIvhVQY7v/exec', {
         method: 'POST',
@@ -231,16 +233,24 @@ document.getElementById('subscriptionForm').addEventListener('submit', function(
     })
     .then(response => response.text())
     .then(responseMessage => {
+        // Hide the loading spinner after response is received
+        document.getElementById('loading').style.display = 'none';
+
+        // Show the response message
         document.getElementById('responseMessage').innerText = responseMessage;
         
         // Clear the email input field after successful subscription
         document.getElementById('email').value = '';
     })
     .catch(error => {
+        // Hide the loading spinner if there is an error
+        document.getElementById('loading').style.display = 'none';
+
         console.error('Error:', error);
         document.getElementById('responseMessage').innerText = 'An error occurred. Please try again.';
     });
 });
+
 </script>
 </footer>
 </html>
