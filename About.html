@@ -232,11 +232,43 @@
     const email = document.getElementById('email').value;
 
     // Call Google Apps Script to handle the booking
-    google.script.run.withSuccessHandler(function(response) {
-      // Close the popup and show a success message
-      document.getElementById('bookingPopup').style.display = 'none';
-      alert('Booking successful! A confirmation email has been sent.');
-    }).submitBookingToSheet(customerName, websiteType, customerId, email);
+   document.getElementById('bookingForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  // Gather form data
+  const customerName = document.getElementById('customerName').value;
+  const websiteType = document.getElementById('websiteType').value;
+  const customerId = document.getElementById('customerId').value;
+  const email = document.getElementById('email').value;
+
+  // Prepare data to send to Google Apps Script
+  const data = {
+    customerName: customerName,
+    websiteType: websiteType,
+    customerId: customerId,
+    email: email
+  };
+
+  // Replace 'YOUR_WEB_APP_URL' with the Web App URL you deployed
+  fetch('https://docs.google.com/spreadsheets/d/1TjvXJ3BMd5j6hxRfN0kxHBX5-WugjJXtQOMURuj21NA/edit?gid=0#gid=0', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Show success message
+    document.getElementById('bookingPopup').style.display = 'none';
+    alert('Booking successful! A confirmation email has been sent.');
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('There was an error with the booking. Please try again.');
+  });
+});
+
   });
 </script>
 </body>
