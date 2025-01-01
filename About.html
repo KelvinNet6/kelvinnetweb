@@ -203,6 +203,42 @@
 });
 
 </script>
+    <script>
+  // Show the booking form when the button is clicked
+  document.getElementById('openBookingFormBtn').addEventListener('click', function() {
+    document.getElementById('bookingPopup').style.display = 'block';
+  });
+
+  // Close the popup when the close button is clicked
+  document.getElementById('closePopup').addEventListener('click', function() {
+    document.getElementById('bookingPopup').style.display = 'none';
+  });
+
+  // Close the popup if the user clicks outside the popup
+  window.addEventListener('click', function(event) {
+    if (event.target === document.getElementById('bookingPopup')) {
+      document.getElementById('bookingPopup').style.display = 'none';
+    }
+  });
+
+  // Handle the booking form submission
+  document.getElementById('bookingForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Gather form data
+    const customerName = document.getElementById('customerName').value;
+    const websiteType = document.getElementById('websiteType').value;
+    const customerId = document.getElementById('customerId').value;
+    const email = document.getElementById('email').value;
+
+    // Call Google Apps Script to handle the booking
+    google.script.run.withSuccessHandler(function(response) {
+      // Close the popup and show a success message
+      document.getElementById('bookingPopup').style.display = 'none';
+      alert('Booking successful! A confirmation email has been sent.');
+    }).submitBookingToSheet(customerName, websiteType, customerId, email);
+  });
+</script>
 </body>
 <footer>
     <div class="footer-container">
