@@ -203,7 +203,7 @@
 });
 
 </script>
-    <script>
+   <script>
   // Show the booking form when the button is clicked
   document.getElementById('openBookingFormBtn').addEventListener('click', function() {
     document.getElementById('bookingPopup').style.display = 'block';
@@ -223,7 +223,7 @@
 
   // Handle the booking form submission
   document.getElementById('bookingForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+    event.preventDefault(); // Prevent default form submission
 
     // Gather form data
     const customerName = document.getElementById('customerName').value;
@@ -231,46 +231,35 @@
     const customerId = document.getElementById('customerId').value;
     const email = document.getElementById('email').value;
 
-    // Call Google Apps Script to handle the booking
-   document.getElementById('bookingForm').addEventListener('submit', function(event) {
-  event.preventDefault();
+    // Prepare data to send to Google Apps Script
+    const data = {
+      customerName: customerName,
+      websiteType: websiteType,
+      customerId: customerId,
+      email: email
+    };
 
-  // Gather form data
-  const customerName = document.getElementById('customerName').value;
-  const websiteType = document.getElementById('websiteType').value;
-  const customerId = document.getElementById('customerId').value;
-  const email = document.getElementById('email').value;
-
-  // Prepare data to send to Google Apps Script
-  const data = {
-    customerName: customerName,
-    websiteType: websiteType,
-    customerId: customerId,
-    email: email
-  };
-
-  // Replace 'YOUR_WEB_APP_URL' with the Web App URL you deployed
-  fetch('https://script.google.com/u/0/home/projects/19g2hGykbso3UEtIK1P9XAJAKNJHQcSlXxRKgpywtSkudMPQYMc-Op2me/edit?pli=1', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(response => response.json())
-  .then(data => {
-    // Show success message
-    document.getElementById('bookingPopup').style.display = 'none';
-    alert('Booking successful! A confirmation email has been sent.');
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('There was an error with the booking. Please try again.');
-  });
-});
-
+    // Replace with the correct Google Apps Script Web App URL
+    fetch('https://script.google.com/macros/s/AKfycbzN7GT-W2J82gd23q3Bs1A5nl_9rugsucXDo6u3BLiU9m_IWY2Sc2FlVz98FjtJDC_L/exec', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(responseData => {
+      // Assuming response is JSON, handle success
+      document.getElementById('bookingPopup').style.display = 'none';
+      alert('Booking successful! A confirmation email has been sent.');
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('There was an error with the booking. Please try again.');
+    });
   });
 </script>
+
 </body>
 <footer>
     <div class="footer-container">
