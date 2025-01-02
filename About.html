@@ -139,7 +139,7 @@
       <input type="text" id="customerId" name="customerId" required><br>
 
       <label for="email">Email Address:</label>
-      <input type="email" id="email1" name="email" required><br>
+     <input type="email" id="emailBooking" name="email" required><br>
 
       <button type="submit" class="submit-btn">Book</button>
     </form>
@@ -204,39 +204,22 @@
 
 </script>
 <script>
-  // Show the booking form when the button is clicked
-  document.getElementById('openBookingFormBtn').addEventListener('click', function() {
-    document.getElementById('bookingPopup').style.display = 'block';
-  });
-
-  // Close the popup when the close button is clicked
-  document.getElementById('closePopup').addEventListener('click', function() {
-    document.getElementById('bookingPopup').style.display = 'none';
-  });
-
-  // Close the popup if the user clicks outside the popup
-  window.addEventListener('click', function(event) {
-    if (event.target === document.getElementById('bookingPopup')) {
-      document.getElementById('bookingPopup').style.display = 'none';
-    }
-  });
-
-  // Handle the booking form submission
-  document.getElementById('bookingForm').addEventListener('submit', function(event) {
+// Handle the booking form submission
+document.getElementById('bookingForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent default form submission
 
     // Gather form data
     const customerName = document.getElementById('customerName').value;
     const websiteType = document.getElementById('websiteType').value;
     const customerId = document.getElementById('customerId').value;
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('emailBooking').value; // Updated ID
 
     // Prepare data to send to Google Apps Script
     const data = {
       customerName: customerName,
       websiteType: websiteType,
       customerId: customerId,
-      email1: email
+      email: email
     };
 
     // Replace with the correct Google Apps Script Web App URL
@@ -257,7 +240,7 @@
       console.error('Error:', error);
       alert('There was an error with the booking. Please try again.');
     });
-  });
+});
 </script>
 
 </body>
@@ -269,7 +252,7 @@
         <div class="subscription-section">
             <h3>Subscribe for Updates</h3>
             <form id="subscriptionForm" action="#" method="post" class="subscription-form">
-                <input type="email" id="email" name="email" placeholder="Enter your email" required class="email-input">
+               <input type="email" id="emailSubscription" name="email" placeholder="Enter your email" required class="email-input">
                 <button type="submit" class="subscribe-btn">Subscribe</button>
             </form>
             
@@ -295,7 +278,7 @@
 document.getElementById('subscriptionForm').addEventListener('submit', function(e) {
     e.preventDefault(); // Prevent the form from submitting normally
 
-    var email = document.getElementById('email').value;
+    var email = document.getElementById('emailSubscription').value; // Updated ID
 
     // Basic email validation in JavaScript
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
@@ -324,7 +307,7 @@ document.getElementById('subscriptionForm').addEventListener('submit', function(
         // Handle different responses
         if (responseMessage === "Subscription successful!") {
             document.getElementById('responseMessage').innerText = "Thank you for subscribing!";
-            document.getElementById('email').value = ''; // Clear the email input field
+            document.getElementById('emailSubscription').value = ''; // Clear the email input field
         } else if (responseMessage === "This email is already subscribed.") {
             document.getElementById('responseMessage').innerText = "This email is already subscribed.";
         } else {
