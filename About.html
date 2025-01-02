@@ -204,6 +204,22 @@
 
 </script>
 <script>
+      // Show the booking form when the button is clicked
+  document.getElementById('openBookingFormBtn').addEventListener('click', function() {
+    document.getElementById('bookingPopup').style.display = 'block';
+  });
+
+  // Close the popup when the close button is clicked
+  document.getElementById('closePopup').addEventListener('click', function() {
+    document.getElementById('bookingPopup').style.display = 'none';
+  });
+
+  // Close the popup if the user clicks outside the popup
+  window.addEventListener('click', function(event) {
+    if (event.target === document.getElementById('bookingPopup')) {
+      document.getElementById('bookingPopup').style.display = 'none';
+    }
+  });
 // Handle the booking form submission
 document.getElementById('bookingForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent default form submission
