@@ -47,7 +47,7 @@ header {
     z-index: 2;
 }
 span {
-   color: rgb(0, 0, 255);
+   color: rgba(173, 216, 230, 1);
 }
 
 .nav-container {
@@ -476,7 +476,7 @@ footer p {
     font-size: 30px;
     background-color: transparent;
     border: none;
-    color: #dff17a;
+    color: rgba(173, 216, 230, 1);
     cursor: pointer;
     z-index: 1100;
     margin-bottom: 5px;
