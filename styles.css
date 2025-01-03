@@ -373,7 +373,7 @@ footer p {
 
 .subscribe-btn {
   padding: 10px 20px;
-  background-color: #ff5733;
+  background-color:  lightblue;
   color: white;
   font-size: 1rem;
   border: none;
@@ -383,7 +383,7 @@ footer p {
 }
 
 .subscribe-btn:hover {
-  background-color: #c53e1e;
+  background-color: lightblue;
 }
 
 /* Social Media Icons */
