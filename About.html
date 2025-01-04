@@ -206,17 +206,21 @@
   </div>
 </div>
 <script>
-    // Show the payment popup when the booking form is submitted
-document.getElementById("bookingForm").addEventListener("submit", function(event) {
-  event.preventDefault(); // Prevent page reload
-  // Hide the booking popup and show the payment popup
-  document.getElementById("bookingPopup").style.display = "none";
-  document.getElementById("paymentPopup").style.display = "block";
+// Open the payment popup after filling the booking form
+document.getElementById("bookNowButton").addEventListener("click", function() {
+  // Validate the booking form first
+  const bookingForm = document.getElementById("bookingForm");
+  if (bookingForm.checkValidity()) {
+    document.getElementById("bookingPopup").style.display = "none"; // Hide booking form
+    document.getElementById("paymentPopup").style.display = "block"; // Show payment form
+  } else {
+    alert("Please fill in all the required fields.");
+  }
 });
 
 // Close the payment popup
 document.getElementById("closePaymentPopup").addEventListener("click", function() {
-  document.getElementById("paymentPopup").style.display = "none";
+  document.getElementById("paymentPopup").style.display = "none"; // Hide payment form
 });
 
 // Show the corresponding payment fields based on the selected payment method
@@ -237,10 +241,11 @@ document.querySelectorAll('input[name="paymentMethod"]').forEach(function(elemen
   });
 });
 
-// Submit payment form (just as a placeholder for now, you would need to integrate actual payment gateways)
+// Handle the form submission for payment
 document.getElementById("paymentForm").addEventListener("submit", function(event) {
-  event.preventDefault(); // Prevent form submission
+  event.preventDefault(); // Prevent form submission until payment is successful
 
+  // Placeholder: simulate payment success after processing
   const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
   let paymentDetails = {};
 
@@ -263,11 +268,15 @@ document.getElementById("paymentForm").addEventListener("submit", function(event
     };
   }
 
-  // Here you would send paymentDetails to the server or payment gateway
-  alert("Payment information submitted successfully!");
-  document.getElementById("paymentPopup").style.display = "none";
+  // Simulate a successful payment
+  setTimeout(function() {
+    alert("Payment successful! Your booking is confirmed.");
+    // Hide the payment popup and show a confirmation
+    document.getElementById("paymentPopup").style.display = "none";
+    // Now proceed with the booking (simulate form submission)
+    alert("Booking details submitted!");
+  }, 2000); // Simulate payment processing delay (2 seconds)
 });
-
 </script>
 <!-- JavaScript-->
 <script>
