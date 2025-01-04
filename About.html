@@ -155,6 +155,120 @@
     </form>
   </div>
 </div>
+    <!-- Payment Popup Form -->
+<div id="paymentPopup" class="popup">
+  <div class="popup-content">
+    <span id="closePaymentPopup" class="close-btn">&times;</span>
+    <h3>Payment Details</h3>
+    <form id="paymentForm">
+      <label for="paymentMethod">Payment Method:</label>
+      <div id="paymentOptions">
+        <div class="payment-option" id="visaOption">
+          <input type="radio" name="paymentMethod" value="Visa" id="visa" checked>
+          <label for="visa"><i class="fab fa-cc-visa"></i> Visa</label>
+        </div>
+        <div class="payment-option" id="paypalOption">
+          <input type="radio" name="paymentMethod" value="PayPal" id="paypal">
+          <label for="paypal"><i class="fab fa-paypal"></i> PayPal</label>
+        </div>
+        <div class="payment-option" id="cryptoOption">
+          <input type="radio" name="paymentMethod" value="Crypto" id="crypto">
+          <label for="crypto"><i class="fab fa-bitcoin"></i> Crypto</label>
+        </div>
+      </div>
+      
+      <!-- Visa Card Payment Fields -->
+      <div id="visaPayment" class="payment-method-fields">
+        <label for="visaCardNumber">Card Number:</label>
+        <input type="text" id="visaCardNumber" name="visaCardNumber" placeholder="Enter your Visa card number" required><br>
+
+        <label for="visaExpiry">Expiry Date:</label>
+        <input type="text" id="visaExpiry" name="visaExpiry" placeholder="MM/YY" required><br>
+
+        <label for="visaCVC">CVC:</label>
+        <input type="text" id="visaCVC" name="visaCVC" placeholder="Enter CVC" required><br>
+      </div>
+
+      <!-- PayPal Payment Fields -->
+      <div id="paypalPayment" class="payment-method-fields" style="display:none;">
+        <label for="paypalEmail">PayPal Email:</label>
+        <input type="email" id="paypalEmail" name="paypalEmail" placeholder="Enter your PayPal email" required><br>
+      </div>
+
+      <!-- Crypto Payment Fields -->
+      <div id="cryptoPayment" class="payment-method-fields" style="display:none;">
+        <label for="cryptoAddress">Crypto Wallet Address:</label>
+        <input type="text" id="cryptoAddress" name="cryptoAddress" placeholder="Enter your crypto wallet address" required><br>
+      </div>
+
+      <button type="submit" class="submit-btn">Make Payment</button>
+    </form>
+  </div>
+</div>
+<script>
+    // Show the payment popup when the booking form is submitted
+document.getElementById("bookingForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // Prevent page reload
+  // Hide the booking popup and show the payment popup
+  document.getElementById("bookingPopup").style.display = "none";
+  document.getElementById("paymentPopup").style.display = "block";
+});
+
+// Close the payment popup
+document.getElementById("closePaymentPopup").addEventListener("click", function() {
+  document.getElementById("paymentPopup").style.display = "none";
+});
+
+// Show the corresponding payment fields based on the selected payment method
+document.querySelectorAll('input[name="paymentMethod"]').forEach(function(element) {
+  element.addEventListener("change", function() {
+    const selectedMethod = this.value;
+    document.getElementById("visaPayment").style.display = "none";
+    document.getElementById("paypalPayment").style.display = "none";
+    document.getElementById("cryptoPayment").style.display = "none";
+
+    if (selectedMethod === "Visa") {
+      document.getElementById("visaPayment").style.display = "block";
+    } else if (selectedMethod === "PayPal") {
+      document.getElementById("paypalPayment").style.display = "block";
+    } else if (selectedMethod === "Crypto") {
+      document.getElementById("cryptoPayment").style.display = "block";
+    }
+  });
+});
+
+// Submit payment form (just as a placeholder for now, you would need to integrate actual payment gateways)
+document.getElementById("paymentForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // Prevent form submission
+
+  const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+  let paymentDetails = {};
+
+  if (paymentMethod === "Visa") {
+    paymentDetails = {
+      method: "Visa",
+      cardNumber: document.getElementById("visaCardNumber").value,
+      expiry: document.getElementById("visaExpiry").value,
+      cvc: document.getElementById("visaCVC").value
+    };
+  } else if (paymentMethod === "PayPal") {
+    paymentDetails = {
+      method: "PayPal",
+      email: document.getElementById("paypalEmail").value
+    };
+  } else if (paymentMethod === "Crypto") {
+    paymentDetails = {
+      method: "Crypto",
+      walletAddress: document.getElementById("cryptoAddress").value
+    };
+  }
+
+  // Here you would send paymentDetails to the server or payment gateway
+  alert("Payment information submitted successfully!");
+  document.getElementById("paymentPopup").style.display = "none";
+});
+
+</script>
 <!-- JavaScript-->
 <script>
     function toggleSidebar() {
