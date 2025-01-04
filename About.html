@@ -57,7 +57,7 @@
     <h2>Our Skills</h2>
     <div class="progress-container">
       <div class="progress-bar-container">
-        <label for="web-development">Web || Software Development</label>
+        <label for="web-development">Web Development || Software Development</label>
         <div class="progress">
           <div id="web-development" class="progress-bar" style="width: 95%"></div>
         </div>
@@ -132,9 +132,9 @@
 <div id="bookingPopup" class="popup">
   <div class="popup-content">
     <span id="closePopup" class="close-btn">&times;</span>
-    <h3>Enquiry Booking</h3>
+    <h3>Web Enquiry Form</h3>
     <form id="bookingForm">
-      <label for="customerName">Customer Name:</label>
+      <label for="customerName">Your Name:</label>
       <input type="text" id="customerName" placeholder="Enter Full Name" name="customerName" required><br>
 
       <label for="websiteType">Website Type:</label>
@@ -145,13 +145,13 @@
         <option value="Business">Business</option>
       </select><br>
 
-      <label for="customerId">Customer ID:</label>
+      <label for="customerId">Your ID:</label>
       <input type="text" id="customerId" placeholder="Enter Your Id" name="customerId" required><br>
 
       <label for="email">Email Address:</label>
      <input type="email" id="emailBooking" placeholder="Enter Your Email" name="email" autocomplete="email" required><br>
 
-      <button type="submit" class="submit-btn" id="bookNowButton">Book Now</button>
+      <button type="submit" class="submit-btn" id="bookNowButton">Enquire For a Website</button>
     </form>
   </div>
 </div>
@@ -159,9 +159,9 @@
 <div id="paymentPopup" class="popup">
   <div class="popup-content">
     <span id="closePaymentPopup" class="close-btn">&times;</span>
-    <h3>Payment Details</h3>
+    <h3>Payment Section</h3>
     <form id="paymentForm">
-      <label for="paymentMethod">Payment Method:</label>
+      <label for="paymentMethod">Choose a Payment Method:</label>
       <div id="paymentOptions">
         <div class="payment-option" id="visaOption">
           <input type="radio" name="paymentMethod" value="Visa" id="visa" checked>
@@ -337,58 +337,83 @@ document.getElementById("paymentForm").addEventListener("submit", function(event
 
 </script>
 <script>
-      // Show the booking form when the button is clicked
-  document.getElementById('openBookingFormBtn').addEventListener('click', function() {
-    document.getElementById('bookingPopup').style.display = 'block';
-  });
+// Show the booking form when the button is clicked
+document.getElementById('openBookingFormBtn').addEventListener('click', function() {
+  document.getElementById('bookingPopup').style.display = 'block';
+});
 
-  // Close the popup when the close button is clicked
-  document.getElementById('closePopup').addEventListener('click', function() {
+// Close the popup when the close button is clicked
+document.getElementById('closePopup').addEventListener('click', function() {
+  document.getElementById('bookingPopup').style.display = 'none';
+});
+
+// Close the popup if the user clicks outside the popup
+window.addEventListener('click', function(event) {
+  if (event.target === document.getElementById('bookingPopup')) {
     document.getElementById('bookingPopup').style.display = 'none';
-  });
+  }
+});
 
-  // Close the popup if the user clicks outside the popup
-  window.addEventListener('click', function(event) {
-    if (event.target === document.getElementById('bookingPopup')) {
-      document.getElementById('bookingPopup').style.display = 'none';
-    }
-  });
+// Flag to check payment status
+let paymentCompleted = false;
+
+// Function to mark payment as completed (this should be triggered after successful payment)
+function markPaymentAsCompleted() {
+  paymentCompleted = true;
+  alert("Payment Successful! You can now submit your booking.");
+  // Enable the booking form submission button
+  document.getElementById('submitBookingBtn').disabled = false;
+}
+
 // Handle the booking form submission
 document.getElementById('bookingForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
+  event.preventDefault(); // Prevent default form submission
 
-    // Gather form data
-    const customerName = document.getElementById('customerName').value;
-    const websiteType = document.getElementById('websiteType').value;
-    const customerId = document.getElementById('customerId').value;
-    const email = document.getElementById('emailBooking').value; // Updated ID
+  // Check if payment is completed before proceeding with form submission
+  if (!paymentCompleted) {
+    alert('Please complete the payment first!');
+    return; // Do not proceed with form submission if payment is not completed
+  }
 
-    // Prepare data to send to Google Apps Script
-    const data = {
-      customerName: customerName,
-      websiteType: websiteType,
-      customerId: customerId,
-      email: email
-    };
+  // Gather form data
+  const customerName = document.getElementById('customerName').value;
+  const websiteType = document.getElementById('websiteType').value;
+  const customerId = document.getElementById('customerId').value;
+  const email = document.getElementById('emailBooking').value; // Updated ID
 
-    // Replace with the correct Google Apps Script Web App URL
-    fetch('https://script.google.com/macros/s/AKfycbydISG9WtgOunPKfXTxszbKU4ATSICIOrpzXHFtBILEUaTYLPbCOr_Qc70eWsySCOCd/exec', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(responseData => {
-      // Assuming response is JSON, handle success
-      document.getElementById('bookingPopup').style.display = 'none';
-      alert('Booking successful! A confirmation email has been sent.');
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('There was an error with the booking. Please try again.');
-    });
+  // Prepare data to send to Google Apps Script
+  const data = {
+    customerName: customerName,
+    websiteType: websiteType,
+    customerId: customerId,
+    email: email
+  };
+
+  // Replace with the correct Google Apps Script Web App URL
+  fetch('https://script.google.com/macros/s/AKfycbydISG9WtgOunPKfXTxszbKU4ATSICIOrpzXHFtBILEUaTYLPbCOr_Qc70eWsySCOCd/exec', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(responseData => {
+    // Assuming response is JSON, handle success
+    document.getElementById('bookingPopup').style.display = 'none';
+    alert('Booking successful! A confirmation email has been sent.');
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('There was an error with the booking. Please try again.');
+  });
+});
+
+// Add event listeners to the payment form to mark payment as completed
+// Assuming this is triggered when payment is successful (e.g., via PayPal, Visa, or Crypto)
+document.getElementById('paymentSubmitBtn').addEventListener('click', function() {
+  // Call this function once the payment has been confirmed
+  markPaymentAsCompleted();
 });
 </script>
 
