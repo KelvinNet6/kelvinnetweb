@@ -87,7 +87,7 @@
       <div class="progress-bar-container">
         <label for="api-gateways">Networking || Cloud Computing</label>
         <div class="progress">
-          <div id="api-gateways" class="progress-bar" style="width: 90%"></div>
+          <div id="Networking" class="progress-bar" style="width: 90%"></div>
         </div>
       </div>
         
@@ -316,8 +316,7 @@ document.getElementById("paymentForm").addEventListener("submit", function(event
 
 // Send payment details to Google Sheets
 function sendPaymentDetailsToGoogleSheets(paymentDetails) {
-  fetch("https://script.google.com/macros/s/AKfycbzHyZyU0gb67q2X1wKNTBRsYzEplfss8CKeQak0WZogEhxzV_A3XUtYabYRMxs80TjRcg/exec", { // Replace with your Web App URL
-    method: "POST",
+  fetch("https://script.google.com/macros/s/AKfycbzHyZyU0gb67q2X1wKNTBRsYzEplfss8CKeQak0WZogEhxzV_A3XUtYabYRMxs80TjRcg/exec", { 
     headers: {
       "Content-Type": "application/json"
     },
