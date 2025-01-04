@@ -151,7 +151,7 @@
       <label for="email">Email Address:</label>
      <input type="email" id="emailBooking" placeholder="Enter Your Email" name="email" autocomplete="email" required><br>
 
-      <button type="submit" class="submit-btn">Book Now</button>
+      <button type="submit" class="submit-btn" id="bookNowButton">Book Now</button>
     </form>
   </div>
 </div>
@@ -207,7 +207,7 @@
 </div>
 <script>
 // Open the payment popup after filling the booking form
-document.getElementById("submit").addEventListener("click", function() {
+document.getElementById("bookNowButton").addEventListener("click", function() {
   // Validate the booking form first
   const bookingForm = document.getElementById("bookingForm");
   if (bookingForm.checkValidity()) {
