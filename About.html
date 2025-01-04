@@ -264,12 +264,15 @@
 
 </script>
 <script>
+// Flag to check if payment is completed
+let paymentCompleted = false;
+
 // Show the booking form when the button is clicked
 document.getElementById('openBookingFormBtn').addEventListener('click', function() {
   document.getElementById('bookingPopup').style.display = 'block';
 });
 
-// Close the popup when the close button is clicked
+// Close the booking popup when the close button is clicked
 document.getElementById('closePopup').addEventListener('click', function() {
   document.getElementById('bookingPopup').style.display = 'none';
 });
@@ -281,15 +284,12 @@ window.addEventListener('click', function(event) {
   }
 });
 
-// Flag to check payment status
-let paymentCompleted = false;
-
-// Function to mark payment as completed (this should be triggered after successful payment)
+// Function to mark payment as completed
 function markPaymentAsCompleted() {
   paymentCompleted = true;
   alert("Payment Successful! You can now submit your booking.");
   // Enable the booking form submission button
-  document.getElementById('submitBookingBtn').disabled = false;
+  document.getElementById('submitBookingBtn').disabled = false;  // Make submit button active
 }
 
 // Handle the booking form submission
@@ -334,13 +334,6 @@ document.getElementById('bookingForm').addEventListener('submit', function(event
     console.error('Error:', error);
     alert('There was an error with the booking. Please try again.');
   });
-});
-
-// Add event listeners to the payment form to mark payment as completed
-// Assuming this is triggered when payment is successful (e.g., via PayPal, Visa, or Crypto)
-document.getElementById('paymentSubmitBtn').addEventListener('click', function() {
-  // Call this function once the payment has been confirmed
-  markPaymentAsCompleted();
 });
 
 // Function to fetch the conversion rate from a currency (e.g., USD, EUR) to ZAR
@@ -401,8 +394,8 @@ document.getElementById("bookNowButton").addEventListener("click", function() {
       customerId: document.getElementById("customerId").value
     };
 
-    // Send booking data to Google Sheets
-    fetch("https://script.google.com/macros/s/AKfycbx_ZJ7jaItdYVB2c-UU9ijEWSwWVkd4sYabok6NJi0/dev", {
+    // Send booking data to Google Sheets (not submitted yet, payment is required first)
+    fetch("https://script.google.com/macros/s/AKfycbydISG9WtgOunPKfXTxszbKU4ATSICIOrpzXHFtBILEUaTYLPbCOr_Qc70eWsySCOCd/exec", { // Replace with your Web App URL
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -414,7 +407,7 @@ document.getElementById("bookNowButton").addEventListener("click", function() {
       if (data.result === "success") {
         // Hide booking form and show payment popup
         document.getElementById("bookingPopup").style.display = "none";
-        document.getElementById("paymentPopup").style.display = "block";
+        document.getElementById("paymentPopup").style.display = "block"; // Show payment popup after booking
       } else {
         alert("Error submitting booking. Please try again.");
       }
@@ -511,102 +504,16 @@ function sendPaymentDetailsToGoogleSheets(paymentDetails) {
   .then(data => {
     if (data.result !== "success") {
       alert("Error submitting payment details. Please try again.");
+    } else {
+      // Mark payment as completed after successful submission
+      markPaymentAsCompleted();
     }
   })
   .catch(error => {
     alert("Error: " + error);
   });
 }
-
-// Visa Payment Processing
-function processVisaPayment(details) {
-  console.log("Processing Visa payment", details);
-
-  fetch("https://api.visa.com/withdraw", {
-    method: "POST",
-    headers: {
-      "Authorization": "Bearer YOUR_VISA_API_KEY",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      cardNumber: details.cardNumber,
-      expiry: details.expiry,
-      cvc: details.cvc,
-      amount: details.amount // This will be the downpayment in ZAR
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      alert("Visa payment processed successfully!");
-      document.getElementById("paymentPopup").style.display = "none";
-      alert("Booking details submitted!");
-    } else {
-      alert("Visa payment failed. Please try again.");
-    }
-  })
-  .catch(error => alert("Error: " + error));
-}
-
-// PayPal Payment Processing
-function processPayPalPayment(details) {
-  console.log("Processing PayPal payment", details);
-
-  fetch("https://api.paypal.com/v1/payments/payment", {
-    method: "POST",
-    headers: {
-      "Authorization": "Bearer YOUR_PAYPAL_API_KEY",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      email: details.email,
-      amount: details.amount,
-      toVisaAccount: true
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.state === "approved") {
-      alert("PayPal payment processed successfully!");
-      document.getElementById("paymentPopup").style.display = "none";
-      alert("Booking details submitted!");
-    } else {
-      alert("PayPal payment failed. Please try again.");
-    }
-  })
-  .catch(error => alert("Error: " + error));
-}
-
-// Crypto Payment Processing
-function processCryptoPayment(details) {
-  console.log("Processing Crypto payment", details);
-
-  fetch("https://api.cryptoexchange.com/withdraw", {
-    method: "POST",
-    headers: {
-      "Authorization": "Bearer YOUR_CRYPTO_API_KEY",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      walletAddress: details.walletAddress,
-      amount: details.amount,
-      toVisaAccount: true
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      alert("Crypto payment processed successfully!");
-      document.getElementById("paymentPopup").style.display = "none";
-      alert("Booking details submitted!");
-    } else {
-      alert("Crypto payment failed. Please try again.");
-    }
-  })
-  .catch(error => alert("Error: " + error));
-}
 </script>
-
 </body>
 <footer>
     <div class="footer-container">
