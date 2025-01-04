@@ -317,7 +317,7 @@ document.getElementById('bookingForm').addEventListener('submit', function(event
   };
 
   // Replace with the correct Google Apps Script Web App URL
-  fetch('https://script.google.com/macros/s/AKfycbydISG9WtgOunPKfXTxszbKU4ATSICIOrpzXHFtBILEUaTYLPbCOr_Qc70eWsySCOCd/exec', {
+  fetch('', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -342,8 +342,53 @@ document.getElementById('paymentSubmitBtn').addEventListener('click', function()
   // Call this function once the payment has been confirmed
   markPaymentAsCompleted();
 });
-</script>
-<script>
+
+// Function to fetch the conversion rate from a currency (e.g., USD, EUR) to ZAR
+async function getConversionRate(fromCurrency, toCurrency = "ZAR") {
+  const url = `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`; // Example API (replace with a reliable one)
+  
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (data && data.rates && data.rates[toCurrency]) {
+      return data.rates[toCurrency];
+    } else {
+      throw new Error("Conversion rate not found.");
+    }
+  } catch (error) {
+    console.error("Error fetching conversion rate:", error);
+    return 1; // Fallback to 1 (no conversion) if the API call fails
+  }
+}
+
+// Define website prices in ZAR
+const websitePrices = {
+  "portfolio": 1000,
+  "blog": 800,
+  "business": 1500,
+  "ecommerce": 2000
+};
+
+// Function to calculate and display downpayment in ZAR
+async function calculateDownpayment(websiteType, paymentMethod) {
+  const amountInZAR = websitePrices[websiteType];
+  let amountToPay = amountInZAR;
+  
+  // Check if the user is paying in a foreign currency
+  const paymentCurrency = paymentMethod === "Visa" ? document.getElementById("visaCurrency").value :
+                          paymentMethod === "PayPal" ? document.getElementById("paypalCurrency").value : 
+                          document.getElementById("cryptoCurrency").value;
+  
+  if (paymentCurrency && paymentCurrency !== "ZAR") {
+    // Convert foreign currency to ZAR
+    const conversionRate = await getConversionRate(paymentCurrency);
+    amountToPay = amountInZAR / conversionRate; // Convert ZAR to selected currency
+    console.log(`Amount in ${paymentCurrency}: ${amountToPay}`);
+  }
+  
+  return amountToPay;
+}
+
 // Open the payment popup after filling the booking form
 document.getElementById("bookNowButton").addEventListener("click", function() {
   const bookingForm = document.getElementById("bookingForm");
@@ -357,7 +402,7 @@ document.getElementById("bookNowButton").addEventListener("click", function() {
     };
 
     // Send booking data to Google Sheets
-    fetch("YOUR_GOOGLE_APPS_SCRIPT_URL", { // Replace with your Web App URL
+    fetch("https://script.google.com/macros/s/AKfycbydISG9WtgOunPKfXTxszbKU4ATSICIOrpzXHFtBILEUaTYLPbCOr_Qc70eWsySCOCd/exec", { // Replace with your Web App URL
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -406,48 +451,50 @@ document.querySelectorAll('input[name="paymentMethod"]').forEach(function(elemen
 });
 
 // Handle the form submission for payment
-document.getElementById("paymentForm").addEventListener("submit", function(event) {
+document.getElementById("paymentForm").addEventListener("submit", async function(event) {
   event.preventDefault(); // Prevent form submission until payment is successful
 
   const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-  let paymentDetails = {};
+  const websiteType = document.getElementById("websiteType").value;
 
+  // Calculate the downpayment based on the selected website type
+  const downpaymentZAR = await calculateDownpayment(websiteType, paymentMethod);
+  
+  let paymentDetails = {};
+  
   if (paymentMethod === "Visa") {
     paymentDetails = {
       method: "Visa",
       cardNumber: document.getElementById("visaCardNumber").value,
       expiry: document.getElementById("visaExpiry").value,
-      cvc: document.getElementById("visaCVC").value
+      cvc: document.getElementById("visaCVC").value,
+      amount: downpaymentZAR
     };
 
-    // Send payment details to Google Sheets
+    // Send payment details to Google Sheets and process Visa payment
     sendPaymentDetailsToGoogleSheets(paymentDetails);
-
-    // Make a call to Visa API for withdrawal to Visa account
     processVisaPayment(paymentDetails);
 
   } else if (paymentMethod === "PayPal") {
     paymentDetails = {
       method: "PayPal",
-      email: document.getElementById("paypalEmail").value
+      email: document.getElementById("paypalEmail").value,
+      amount: downpaymentZAR
     };
 
-    // Send payment details to Google Sheets
+    // Send payment details to Google Sheets and process PayPal payment
     sendPaymentDetailsToGoogleSheets(paymentDetails);
-
-    // Make a call to PayPal API to withdraw funds to Visa account
     processPayPalPayment(paymentDetails);
 
   } else if (paymentMethod === "Crypto") {
     paymentDetails = {
       method: "Crypto",
-      walletAddress: document.getElementById("cryptoAddress").value
+      walletAddress: document.getElementById("cryptoAddress").value,
+      amount: downpaymentZAR
     };
 
-    // Send payment details to Google Sheets
+    // Send payment details to Google Sheets and process Crypto payment
     sendPaymentDetailsToGoogleSheets(paymentDetails);
-
-    // Make a call to Crypto API to withdraw funds to Visa account
     processCryptoPayment(paymentDetails);
   }
 });
@@ -485,7 +532,7 @@ function processVisaPayment(details) {
       cardNumber: details.cardNumber,
       expiry: details.expiry,
       cvc: details.cvc,
-      amount: "100"
+      amount: details.amount // This will be the downpayment in ZAR
     })
   })
   .then(response => response.json())
@@ -513,7 +560,7 @@ function processPayPalPayment(details) {
     },
     body: JSON.stringify({
       email: details.email,
-      amount: "100",
+      amount: details.amount,
       toVisaAccount: true
     })
   })
@@ -542,7 +589,7 @@ function processCryptoPayment(details) {
     },
     body: JSON.stringify({
       walletAddress: details.walletAddress,
-      amount: "100",
+      amount: details.amount,
       toVisaAccount: true
     })
   })
@@ -559,6 +606,7 @@ function processCryptoPayment(details) {
   .catch(error => alert("Error: " + error));
 }
 </script>
+
 </body>
 <footer>
     <div class="footer-container">
