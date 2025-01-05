@@ -336,7 +336,7 @@ document.getElementById('bookingForm').addEventListener('submit', function(event
   });
 });
     
-async function getConversionRate(fromCurrency, toCurrency = "ZAR") {
+async function getConversionRate(fromCurrency = "USD", toCurrency = "ZAR") {
   const url = `https://open.er-api.com/v6/latest/${fromCurrency}`; 
   
   try {
@@ -355,10 +355,10 @@ async function getConversionRate(fromCurrency, toCurrency = "ZAR") {
 
 // Define website prices in ZAR
 const websitePrices = {
-  "portfolio": 106.68,
-  "blog": 133.35,
-  "business": 320.04,
-  "ecommerce": 450.46
+  "portfolio": 2000,
+  "blog": 2500,
+  "business": 6000,
+  "ecommerce": 8450
 };
 
 // Function to calculate and display downpayment in ZAR
