@@ -336,7 +336,7 @@ document.getElementById('bookingForm').addEventListener('submit', function(event
   });
 });
     
-async function getConversionRate(fromCurrency = "USD", toCurrency = "ZAR") {
+async function getConversionRate(fromCurrency, toCurrency = "ZAR") {
   const url = `https://open.er-api.com/v6/latest/${fromCurrency}`; 
   
   try {
@@ -349,11 +349,9 @@ async function getConversionRate(fromCurrency = "USD", toCurrency = "ZAR") {
     }
   } catch (error) {
     console.error("Error fetching conversion rate:", error);
-    return 1; // Fallback to 1 (no conversion) if the API call fails
+    return 1; 
   }
 }
-
-// Define website prices in ZAR
 const websitePrices = {
   "portfolio": 2000,
   "blog": 2500,
@@ -361,27 +359,23 @@ const websitePrices = {
   "ecommerce": 8450
 };
 
-// Function to calculate and display downpayment in ZAR
 async function calculateDownpayment(websiteType, paymentMethod) {
   const amountInZAR = websitePrices[websiteType];
   let amountToPay = amountInZAR;
-  
-  // Check if the user is paying in a foreign currency
+
   const paymentCurrency = paymentMethod === "Visa" ? document.getElementById("visaCurrency").value :
                           paymentMethod === "PayPal" ? document.getElementById("paypalCurrency").value : 
                           document.getElementById("cryptoCurrency").value;
   
   if (paymentCurrency && paymentCurrency !== "ZAR") {
-    // Convert foreign currency to ZAR
     const conversionRate = await getConversionRate(paymentCurrency);
-    amountToPay = amountInZAR / conversionRate; // Convert ZAR to selected currency
+    amountToPay = amountInZAR / conversionRate; 
     console.log(`Amount in ${paymentCurrency}: ${amountToPay}`);
   }
   
   return amountToPay;
 }
 
-// Open the payment popup after filling the booking form
 document.getElementById("bookNowButton").addEventListener("click", function() {
   const bookingForm = document.getElementById("bookingForm");
   if (bookingForm.checkValidity()) {
@@ -392,9 +386,8 @@ document.getElementById("bookNowButton").addEventListener("click", function() {
       websiteType: document.getElementById("websiteType").value,
       customerId: document.getElementById("customerId").value
     };
-
-    // Send booking data to Google Sheets (not submitted yet, payment is required first)
-    fetch("https://script.google.com/macros/s/AKfycbydISG9WtgOunPKfXTxszbKU4ATSICIOrpzXHFtBILEUaTYLPbCOr_Qc70eWsySCOCd/exec", { // Replace with your Web App URL
+      
+    fetch("https://script.google.com/macros/s/AKfycbydISG9WtgOunPKfXTxszbKU4ATSICIOrpzXHFtBILEUaTYLPbCOr_Qc70eWsySCOCd/exec", { 
       method: "POST",
       headers: {
         "Content-Type": "application/json"
