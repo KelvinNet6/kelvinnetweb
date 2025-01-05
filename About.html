@@ -337,7 +337,7 @@ document.getElementById('bookingForm').addEventListener('submit', function(event
 });
     
 async function getConversionRate(fromCurrency, toCurrency = "ZAR") {
-  const url = `https://open.er-api.com/v6/latest/${fromCurrency}`; 
+  const url = `https://www.freeforexapi.com/api/live?pairs=GBPZAR,EURZAR,USDZAR`; 
   
   try {
     const response = await fetch(url);
