@@ -335,10 +335,9 @@ document.getElementById('bookingForm').addEventListener('submit', function(event
     alert('There was an error with the booking. Please try again.');
   });
 });
-
-// Function to fetch the conversion rate from a currency (e.g., USD, EUR) to ZAR
+    
 async function getConversionRate(fromCurrency, toCurrency = "ZAR") {
-  const url = `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`; // Example API (replace with a reliable one)
+  const url = `https://open.er-api.com/v6/latest/${fromCurrency}`; 
   
   try {
     const response = await fetch(url);
