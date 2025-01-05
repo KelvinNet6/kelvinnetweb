@@ -511,6 +511,106 @@ function sendPaymentDetailsToGoogleSheets(paymentDetails) {
     alert("Error: " + error);
   });
 }
+    //=====================================================payment gateways===========================================//
+    // Visa Payment Processing
+function processVisaPayment(paymentDetails) {
+  // Example API call for Visa payment gateway (replace with actual API)
+  fetch("https://api.visapayments.com/charge", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      cardNumber: paymentDetails.cardNumber,
+      expiry: paymentDetails.expiry,
+      cvc: paymentDetails.cvc,
+      amount: paymentDetails.amount
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === "success") {
+      alert("Visa payment successful.");
+      markPaymentAsCompleted(); // Mark payment as completed
+    } else {
+      alert("Visa payment failed. Please try again.");
+    }
+  })
+  .catch(error => {
+    console.error("Error with Visa payment:", error);
+    alert("Error with Visa payment. Please try again.");
+  });
+}
+// PayPal Payment Processing
+function processPayPalPayment(paymentDetails) {
+  // Example API call for PayPal payment gateway (replace with actual API)
+  fetch("https://api.paypal.com/v1/payments/payment", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer YOUR_PAYPAL_ACCESS_TOKEN` // Add your PayPal OAuth token here
+    },
+    body: JSON.stringify({
+      intent: "sale",
+      payer: {
+        payment_method: "paypal"
+      },
+      transactions: [{
+        amount: {
+          total: paymentDetails.amount,
+          currency: "USD"
+        },
+        description: "Booking Payment"
+      }],
+      redirect_urls: {
+        return_url: "https://www.yoursite.com/payment-success",
+        cancel_url: "https://www.yoursite.com/payment-cancel"
+      }
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.state === "approved") {
+      alert("PayPal payment successful.");
+      markPaymentAsCompleted(); // Mark payment as completed
+    } else {
+      alert("PayPal payment failed. Please try again.");
+    }
+  })
+  .catch(error => {
+    console.error("Error with PayPal payment:", error);
+    alert("Error with PayPal payment. Please try again.");
+  });
+}
+
+// Crypto Payment Processing
+function processCryptoPayment(paymentDetails) {
+  // Example API call for Crypto payment gateway (replace with actual API)
+  fetch("https://api.crypto.com/v1/transactions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      walletAddress: paymentDetails.walletAddress,
+      amount: paymentDetails.amount,
+      currency: "BTC" // Assuming Bitcoin for the crypto payment
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === "success") {
+      alert("Crypto payment successful.");
+      markPaymentAsCompleted(); // Mark payment as completed
+    } else {
+      alert("Crypto payment failed. Please try again.");
+    }
+  })
+  .catch(error => {
+    console.error("Error with Crypto payment:", error);
+    alert("Error with Crypto payment. Please try again.");
+  });
+}
 </script>
 </body>
 <footer>
