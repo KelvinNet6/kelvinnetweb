@@ -294,13 +294,29 @@ function markPaymentAsCompleted() {
 // Handle the booking form submission
 document.getElementById('bookingForm').addEventListener('submit', function(event) {
   event.preventDefault(); // Prevent default form submission
-
-  // Check if payment is completed before proceeding with form submission
+  
+  // Check if payment is completed
   if (!paymentCompleted) {
-    alert('Please complete the payment first!');
-    return; // Do not proceed with form submission if payment is not completed
+    // If payment is not completed, show the payment popup
+    document.getElementById('paymentPopup').style.display = 'block';  // Show the payment form
+    return; // Do not proceed with form submission until payment is done
   }
+  
+  // If payment is completed, proceed with booking data submission
+  submitBookingForm();
+});
 
+// Function to be called when payment is completed (assuming paymentCompleted is set to true)
+function completePayment() {
+  // Set paymentCompleted flag to true when the payment is done
+  paymentCompleted = true;
+
+  // Now that payment is completed, submit the form data
+  submitBookingForm();
+}
+
+// Function to submit booking data to Google Apps Script after payment is completed
+function submitBookingForm() {
   // Gather form data
   const customerName = document.getElementById('customerName').value;
   const websiteType = document.getElementById('websiteType').value;
@@ -325,15 +341,16 @@ document.getElementById('bookingForm').addEventListener('submit', function(event
   })
   .then(response => response.json())
   .then(responseData => {
-    // Assuming response is JSON, handle success
-    document.getElementById('bookingPopup').style.display = 'none';
+    // Handle success
+    document.getElementById('bookingPopup').style.display = 'none';  // Hide booking popup
     alert('Booking successful! A confirmation email has been sent.');
   })
   .catch(error => {
     console.error('Error:', error);
     alert('There was an error with the booking. Please try again.');
   });
-});
+}
+
     
 async function getConversionRate(fromCurrency, toCurrency = "ZAR") {
   const url = `https://www.freeforexapi.com/api/live?pairs=GBPZAR,EURZAR,USDZAR`; 
