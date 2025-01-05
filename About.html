@@ -258,55 +258,45 @@
             responseMessage.style.color = 'red';
         }
 
-    }, 3000); // Adjust the delay as needed (simulating a 3-second request)
+    }, 3000); 
 });
 
 </script>
 <script>
-// Flag to check if payment is completed
 let paymentCompleted = false;
 
-// Show the booking form when the button is clicked
 document.getElementById('openBookingFormBtn').addEventListener('click', function() {
   document.getElementById('bookingPopup').style.display = 'block';
 });
 
-// Close the booking popup when the close button is clicked
 document.getElementById('closePopup').addEventListener('click', function() {
   document.getElementById('bookingPopup').style.display = 'none';
 });
 
-// Close the popup if the user clicks outside the popup
 window.addEventListener('click', function(event) {
   if (event.target === document.getElementById('bookingPopup')) {
     document.getElementById('bookingPopup').style.display = 'none';
   }
 });
 
-// Function to mark payment as completed
 function markPaymentAsCompleted() {
   paymentCompleted = true;
   alert("Payment Successful! You can now submit your booking.");
-  // Enable the booking form submission button
-  document.getElementById('submitBookingBtn').disabled = false;  // Make submit button active
+  document.getElementById('submitBookingBtn').disabled = false;  
 }
 
-// Handle the booking form submission
 document.getElementById('bookingForm').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent default form submission
+  event.preventDefault(); 
   
-  // Check if payment is completed
   if (!paymentCompleted) {
-    // If payment is not completed, show the payment popup
-    document.getElementById('paymentPopup').style.display = 'block';  // Show the payment form
-    return; // Do not proceed with form submission until payment is done
+       document.getElementById('bookingForm').style.display = 'none';
+    document.getElementById('paymentPopup').style.display = 'block';  
+    return; 
   }
-  
-  // If payment is completed, proceed with booking data submission
+    
   submitBookingForm();
 });
 
-// Function to be called when payment is completed (assuming paymentCompleted is set to true)
 function completePayment() {
   // Set paymentCompleted flag to true when the payment is done
   paymentCompleted = true;
