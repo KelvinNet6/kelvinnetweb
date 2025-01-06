@@ -381,7 +381,7 @@ async function calculateDownpayment(websiteType, paymentMethod) {
   if (paymentCurrency && paymentCurrency !== "ZAR") {
     const conversionRate = await getConversionRate(paymentCurrency);
     amountToPay = amountInZAR / conversionRate; 
-    console.log(Amount in ${paymentCurrency}: ${amountToPay});
+    console.log('Amount in ${paymentCurrency}: ${amountToPay}');
   }
   
   return amountToPay;
