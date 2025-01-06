@@ -200,7 +200,7 @@
   <label for="applePayToken">Apple Pay Token:</label>
   <input type="text" id="applePayToken" name="applePayToken" placeholder="Enter your Apple Pay token" required><br>
 </div>
-      <button type="submit" class="submit-btn">Make Payment</button>
+      <button type="submit" class="submit-btn" id="makePaymentButton">Make Payment</button>
     </form>
   </div>
 </div>
@@ -281,57 +281,47 @@ window.addEventListener('click', function(event) {
 function markPaymentAsCompleted() {
   paymentCompleted = true;
   alert("Payment Successful! You can now submit your booking.");
-  document.getElementById('submitBookingBtn').disabled = false;  
+  document.getElementById('submitBookingBtn').disabled = false;
 }
 
 document.getElementById('bookingForm').addEventListener('submit', function(event) {
-  event.preventDefault(); 
-  
+  event.preventDefault();
+
   if (!paymentCompleted) {
-       document.getElementById('bookingForm').style.display = 'none';
-    document.getElementById('paymentPopup').style.display = 'block';  
-    return; 
+    document.getElementById('bookingForm').style.display = 'none';
+    document.getElementById('paymentPopup').style.display = 'block';
+    return;
   }
-    
+
   submitBookingForm();
 });
 
 function completePayment() {
-  // Set paymentCompleted flag to true when the payment is done
   paymentCompleted = true;
-
-  // Now that payment is completed, submit the form data
   submitBookingForm();
 }
 
-// Function to submit booking data to Google Apps Script after payment is completed
 function submitBookingForm() {
-  // Gather form data
   const customerName = document.getElementById('customerName').value;
   const websiteType = document.getElementById('websiteType').value;
   const customerId = document.getElementById('customerId').value;
-  const email = document.getElementById('emailBooking').value; // Updated ID
+  const email = document.getElementById('emailBooking').value;
 
-  // Prepare data to send to Google Apps Script
   const data = {
-    customerName: customerName,
-    websiteType: websiteType,
-    customerId: customerId,
-    email: email
+    customerName,
+    websiteType,
+    customerId,
+    email
   };
 
-  // Replace with the correct Google Apps Script Web App URL
   fetch('https://script.google.com/macros/s/AKfycbydISG9WtgOunPKfXTxszbKU4ATSICIOrpzXHFtBILEUaTYLPbCOr_Qc70eWsySCOCd/exec', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
   .then(response => response.json())
   .then(responseData => {
-    // Handle success
-    document.getElementById('bookingPopup').style.display = 'none';  // Hide booking popup
+    document.getElementById('bookingPopup').style.display = 'none';
     alert('Booking successful! A confirmation email has been sent.');
   })
   .catch(error => {
@@ -340,177 +330,31 @@ function submitBookingForm() {
   });
 }
 
-    
-async function getConversionRate(fromCurrency, toCurrency = "ZAR") {
-  const url = `https://www.freeforexapi.com/api/live?pairs=GBPZAR,EURZAR,USDZAR`; 
-  
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    if (data && data.rates && data.rates[toCurrency]) {
-      return data.rates[toCurrency];
-    } else {
-      throw new Error("Conversion rate not found.");
-    }
-  } catch (error) {
-    console.error("Error fetching conversion rate:", error);
-    return 1; 
-  }
-}
-const websitePrices = {
-  "portfolio": 2000,
-  "blog": 2500,
-  "business": 6000,
-  "ecommerce": 8450
-};
-
 async function calculateDownpayment(websiteType, paymentMethod) {
+  const websitePrices = {
+    "portfolio": 2000,
+    "blog": 2500,
+    "business": 6000,
+    "ecommerce": 8450
+  };
+
   const amountInZAR = websitePrices[websiteType];
   let amountToPay = amountInZAR;
 
   const paymentCurrency = paymentMethod === "Visa" ? document.getElementById("visaCurrency").value :
                           paymentMethod === "PayPal" ? document.getElementById("paypalCurrency").value : 
                           document.getElementById("cryptoCurrency").value;
-  
+
   if (paymentCurrency && paymentCurrency !== "ZAR") {
     const conversionRate = await getConversionRate(paymentCurrency);
-    amountToPay = amountInZAR / conversionRate; 
+    amountToPay = amountInZAR / conversionRate;
     console.log(`Amount in ${paymentCurrency}: ${amountToPay}`);
   }
-  
+
   return amountToPay;
 }
 
-document.getElementById("bookNowButton").addEventListener("click", function() {
-  const bookingForm = document.getElementById("bookingForm");
-  if (bookingForm.checkValidity()) {
-    // Collect booking data
-    const bookingData = {
-      customerName: document.getElementById("customerName").value,
-      email: document.getElementById("emailBooking").value,
-      websiteType: document.getElementById("websiteType").value,
-      customerId: document.getElementById("customerId").value
-    };
-      
-    fetch("https://script.google.com/macros/s/AKfycbzHyZyU0gb67q2X1wKNTBRsYzEplfss8CKeQak0WZogEhxzV_A3XUtYabYRMxs80TjRcg/exec", { 
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ type: "booking", data: bookingData }) // Send booking form data
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.result === "success") {
-        // Hide booking form and show payment popup
-        document.getElementById("bookingPopup").style.display = "none";
-        document.getElementById("paymentPopup").style.display = "block"; // Show payment popup after booking
-      } else {
-        alert("Error submitting booking. Please try again.");
-      }
-    })
-    .catch(error => {
-      alert("Error: " + error);
-    });
-  } else {
-    alert("Please fill in all the required fields.");
-  }
-});
-
-// Close the payment popup
-document.getElementById("closePaymentPopup").addEventListener("click", function() {
-  document.getElementById("paymentPopup").style.display = "none"; // Hide payment form
-});
-
-// Show the corresponding payment fields based on the selected payment method
-document.querySelectorAll('input[name="paymentMethod"]').forEach(function (element) {
-  element.addEventListener("change", function () {
-    const selectedMethod = this.value;
-    document.getElementById("visaPayment").style.display = "none";
-    document.getElementById("paypalPayment").style.display = "none";
-    document.getElementById("applePayPayment").style.display = "none"; // Updated for Apple Pay
-
-    if (selectedMethod === "Visa") {
-      document.getElementById("visaPayment").style.display = "block";
-    } else if (selectedMethod === "PayPal") {
-      document.getElementById("paypalPayment").style.display = "block";
-    } else if (selectedMethod === "ApplePay") {
-      document.getElementById("applePayPayment").style.display = "block"; // Show Apple Pay fields
-    }
-  });
-});
-
-// Handle the form submission for payment
-document.getElementById("paymentForm").addEventListener("submit", async function(event) {
-  event.preventDefault(); // Prevent form submission until payment is successful
-
-  const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-  const websiteType = document.getElementById("websiteType").value;
-
-  // Calculate the downpayment based on the selected website type
-  const downpaymentZAR = await calculateDownpayment(websiteType, paymentMethod);
-  
-  let paymentDetails = {};
-  
-  if (paymentMethod === "Visa") {
-    paymentDetails = {
-      method: "Visa",
-      cardNumber: document.getElementById("visaCardNumber").value,
-      expiry: document.getElementById("visaExpiry").value,
-      cvc: document.getElementById("visaCVC").value,
-      amount: downpaymentZAR
-    };
-
-    // Send payment details to Google Sheets and process Visa payment
-    sendPaymentDetailsToGoogleSheets(paymentDetails);
-    processVisaPayment(paymentDetails);
-
-  } else if (paymentMethod === "PayPal") {
-    paymentDetails = {
-      method: "PayPal",
-      email: document.getElementById("paypalEmail").value,
-      amount: downpaymentZAR
-    };
-
-    // Send payment details to Google Sheets and process PayPal payment
-    sendPaymentDetailsToGoogleSheets(paymentDetails);
-    processPayPalPayment(paymentDetails);
-
-  } else if (paymentMethod === "ApplePay") {
-    paymentDetails = {
-        method: "ApplePay",
-        token: document.getElementById("applePayToken").value,
-        amount: downpaymentZAR
-    };
-    // Send payment details to Google Sheets and process Apple Pay payment
-    sendPaymentDetailsToGoogleSheets(paymentDetails);
-    processApplePayPayment(paymentDetails);
-}
-});
-
-// Send payment details to Google Sheets
-function sendPaymentDetailsToGoogleSheets(paymentDetails) {
-  fetch("https://script.google.com/macros/s/AKfycbzHyZyU0gb67q2X1wKNTBRsYzEplfss8CKeQak0WZogEhxzV_A3XUtYabYRMxs80TjRcg/exec", { 
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ type: "payment", data: paymentDetails }) // Send payment data
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.result !== "success") {
-      alert("Error submitting payment details. Please try again.");
-    } else {
-      // Mark payment as completed after successful submission
-      markPaymentAsCompleted();
-    }
-  })
-  .catch(error => {
-    alert("Error: " + error);
-  });
-}
-    //=====================================================payment gateways===========================================//
-  async function processPayPalPayment(paymentDetails) {
+async function processPayPalPayment(paymentDetails) {
   const paypalUrl = "https://www.paypal.com/ncp/payment/A3ZVUFHL5J4TW";
 
   try {
@@ -523,7 +367,7 @@ function sendPaymentDetailsToGoogleSheets(paymentDetails) {
       body: JSON.stringify({
         intent: "sale",
         payer: {
-          payment_method: "paypal" // Handles both PayPal and credit/debit cards
+          payment_method: "paypal"
         },
         transactions: [{
           amount: {
@@ -542,7 +386,7 @@ function sendPaymentDetailsToGoogleSheets(paymentDetails) {
     const data = await response.json();
     if (data.state === "approved") {
       alert("Payment successful!");
-      markPaymentAsCompleted(); // Mark payment as completed
+      markPaymentAsCompleted();
     } else {
       alert("Payment failed. Please try again.");
     }
@@ -550,6 +394,84 @@ function sendPaymentDetailsToGoogleSheets(paymentDetails) {
     console.error("Error with PayPal payment:", error);
     alert("Error processing payment. Please try again.");
   }
+}
+
+document.getElementById("paymentForm").addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+  const websiteType = document.getElementById("websiteType").value;
+
+  const downpaymentZAR = await calculateDownpayment(websiteType, paymentMethod);
+  let paymentDetails = {};
+
+  if (paymentMethod === "Visa") {
+    paymentDetails = {
+      method: "Visa",
+      cardNumber: document.getElementById("visaCardNumber").value,
+      expiry: document.getElementById("visaExpiry").value,
+      cvc: document.getElementById("visaCVC").value,
+      amount: downpaymentZAR
+    };
+
+    processVisaPayment(paymentDetails);
+  } else if (paymentMethod === "PayPal") {
+    paymentDetails = {
+      method: "PayPal",
+      email: document.getElementById("paypalEmail").value,
+      amount: downpaymentZAR
+    };
+
+    processPayPalPayment(paymentDetails);
+  }
+});
+
+// Add event listener for the make payment button
+document.getElementById("makePaymentButton").addEventListener("click", function () {
+  const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+  
+  if (!paymentMethod) {
+    alert("Please select a payment method.");
+    return;
+  }
+  
+  // Trigger payment processing based on selected method
+  handlePaymentMethod(paymentMethod.value);
+});
+
+// Handle payment method based on selection
+function handlePaymentMethod(paymentMethod) {
+  const websiteType = document.getElementById("websiteType").value;
+
+  calculateDownpayment(websiteType, paymentMethod).then(downpaymentZAR => {
+    let paymentDetails = {};
+
+    if (paymentMethod === "Visa") {
+      paymentDetails = {
+        method: "Visa",
+        cardNumber: document.getElementById("visaCardNumber").value,
+        expiry: document.getElementById("visaExpiry").value,
+        cvc: document.getElementById("visaCVC").value,
+        amount: downpaymentZAR
+      };
+
+      processVisaPayment(paymentDetails);
+    } else if (paymentMethod === "PayPal") {
+      paymentDetails = {
+        method: "PayPal",
+        email: document.getElementById("paypalEmail").value,
+        amount: downpaymentZAR
+      };
+
+      processPayPalPayment(paymentDetails);
+    }
+  });
+}
+
+function processVisaPayment(paymentDetails) {
+  console.log("Processing Visa payment:", paymentDetails);
+  alert("Visa payment processed successfully!");
+  markPaymentAsCompleted();
 }
 
 </script>
