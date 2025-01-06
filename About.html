@@ -265,12 +265,18 @@
 let paymentCompleted = false;
 
 document.getElementById('openBookingFormBtn').addEventListener('click', function() {
-  document.getElementById('bookingPopup').style.display = 'block';
+  const bookingPopup = document.getElementById('bookingPopup');
+  if (bookingPopup) {
+    bookingPopup.style.display = 'block';
+  } else {
+    console.error('Booking popup element not found');
+  }
 });
 
 document.getElementById('closePopup').addEventListener('click', function() {
   document.getElementById('bookingPopup').style.display = 'none';
 });
+
 
 window.addEventListener('click', function(event) {
   if (event.target === document.getElementById('bookingPopup')) {
