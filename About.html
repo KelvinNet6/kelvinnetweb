@@ -171,10 +171,10 @@
           <input type="radio" name="paymentMethod" value="PayPal" id="paypal">
           <label for="paypal"><i class="fab fa-paypal"></i> PayPal</label>
         </div>
-        <div class="payment-option" id="cryptoOption">
-          <input type="radio" name="paymentMethod" value="Crypto" id="crypto">
-          <label for="crypto"><i class="fab fa-bitcoin"></i> Crypto</label>
-        </div>
+        <div class="payment-option" id="applePayOption">
+  <input type="radio" name="paymentMethod" value="ApplePay" id="applePay">
+  <label for="applePay"><i class="fab fa-apple"></i> Apple Pay</label>
+</div>
       </div>
       
       <!-- Visa Card Payment Fields -->
@@ -196,11 +196,10 @@
       </div>
 
       <!-- Crypto Payment Fields -->
-      <div id="cryptoPayment" class="payment-method-fields" style="display:none;">
-        <label for="cryptoAddress">Crypto Wallet Address:</label>
-        <input type="text" id="cryptoAddress" name="cryptoAddress" placeholder="Enter your crypto wallet address" required><br>
-      </div>
-
+     <div id="applePayPayment" class="payment-method-fields" style="display:none;">
+  <label for="applePayToken">Apple Pay Token:</label>
+  <input type="text" id="applePayToken" name="applePayToken" placeholder="Enter your Apple Pay token" required><br>
+</div>
       <button type="submit" class="submit-btn">Make Payment</button>
     </form>
   </div>
@@ -424,19 +423,19 @@ document.getElementById("closePaymentPopup").addEventListener("click", function(
 });
 
 // Show the corresponding payment fields based on the selected payment method
-document.querySelectorAll('input[name="paymentMethod"]').forEach(function(element) {
-  element.addEventListener("change", function() {
+document.querySelectorAll('input[name="paymentMethod"]').forEach(function (element) {
+  element.addEventListener("change", function () {
     const selectedMethod = this.value;
     document.getElementById("visaPayment").style.display = "none";
     document.getElementById("paypalPayment").style.display = "none";
-    document.getElementById("cryptoPayment").style.display = "none";
+    document.getElementById("applePayPayment").style.display = "none"; // Updated for Apple Pay
 
     if (selectedMethod === "Visa") {
       document.getElementById("visaPayment").style.display = "block";
     } else if (selectedMethod === "PayPal") {
       document.getElementById("paypalPayment").style.display = "block";
-    } else if (selectedMethod === "Crypto") {
-      document.getElementById("cryptoPayment").style.display = "block";
+    } else if (selectedMethod === "ApplePay") {
+      document.getElementById("applePayPayment").style.display = "block"; // Show Apple Pay fields
     }
   });
 });
@@ -477,17 +476,16 @@ document.getElementById("paymentForm").addEventListener("submit", async function
     sendPaymentDetailsToGoogleSheets(paymentDetails);
     processPayPalPayment(paymentDetails);
 
-  } else if (paymentMethod === "Crypto") {
+  } else if (paymentMethod === "ApplePay") {
     paymentDetails = {
-      method: "Crypto",
-      walletAddress: document.getElementById("cryptoAddress").value,
-      amount: downpaymentZAR
+        method: "ApplePay",
+        token: document.getElementById("applePayToken").value,
+        amount: downpaymentZAR
     };
-
-    // Send payment details to Google Sheets and process Crypto payment
+    // Send payment details to Google Sheets and process Apple Pay payment
     sendPaymentDetailsToGoogleSheets(paymentDetails);
-    processCryptoPayment(paymentDetails);
-  }
+    processApplePayPayment(paymentDetails);
+}
 });
 
 // Send payment details to Google Sheets
@@ -513,7 +511,7 @@ function sendPaymentDetailsToGoogleSheets(paymentDetails) {
 }
     //=====================================================payment gateways===========================================//
   async function processPayPalPayment(paymentDetails) {
-  const paypalUrl = "https://www.paypal.com/ncp/payment/JRAH2BTPABE7A";
+  const paypalUrl = "https://www.paypal.com/ncp/payment/A3ZVUFHL5J4TW";
 
   try {
     const response = await fetch(paypalUrl, {
