@@ -524,7 +524,7 @@ function sendPaymentDetailsToGoogleSheets(paymentDetails) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": Bearer YOUR_PAYPAL_ACCESS_TOKEN
+        "Authorization": 'Bearer YOUR_PAYPAL_ACCESS_TOKEN'
       },
       body: JSON.stringify({
         intent: "sale",
