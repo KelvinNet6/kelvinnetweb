@@ -328,7 +328,7 @@ async function calculateDownpayment(websiteType, paymentMethod) {
 
   const paymentCurrency = paymentMethod === "Visa" ? document.getElementById("visaCurrency").value :
                           paymentMethod === "PayPal" ? document.getElementById("paypalCurrency").value : 
-                          document.getElementById("cryptoCurrency").value;
+                          document.getElementById("applepayCurrency").value;
 
   if (paymentCurrency && paymentCurrency !== "ZAR") {
     const conversionRate = await getConversionRate(paymentCurrency);
