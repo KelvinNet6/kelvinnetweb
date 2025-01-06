@@ -937,7 +937,7 @@ label {
 .popup-content {
   background-color: rgba(0, 0, 0, 0.5);
   color: white; /* White text for contrast */
-  margin: 10% auto;
+  margin: 3% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 90%; /* Increased width to make the popup content more accessible */
