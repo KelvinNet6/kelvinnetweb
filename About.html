@@ -399,28 +399,25 @@ document.getElementById("bookNowButton").addEventListener("click", function() {
     };
       
     fetch("https://script.google.com/macros/s/AKfycbzHyZyU0gb67q2X1wKNTBRsYzEplfss8CKeQak0WZogEhxzV_A3XUtYabYRMxs80TjRcg/exec", { 
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ type: "booking", data: bookingData }) // Send booking form data
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.result === "success") {
-        // Hide booking form and show payment popup
-        document.getElementById("bookingPopup").style.display = "none";
-        document.getElementById("paymentPopup").style.display = "block"; // Show payment popup after booking
-      } else {
-        alert("Error submitting booking. Please try again.");
-      }
-    })
-    .catch(error => {
-      alert("Error: " + error);
-    });
+  method: "POST",
+  mode: "cors", // Enable CORS
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ type: "booking", data: bookingData }) // Send booking form data
+})
+.then(response => response.json())
+.then(data => {
+  if (data.result === "success") {
+    // Hide booking form and show payment popup
+    document.getElementById("bookingPopup").style.display = "none";
+    document.getElementById("paymentPopup").style.display = "block"; // Show payment popup after booking
   } else {
-    alert("Please fill in all the required fields.");
+    alert("Error submitting booking. Please try again.");
   }
+})
+.catch(error => {
+  alert("Error: " + error);
 });
 
 // Close the payment popup
