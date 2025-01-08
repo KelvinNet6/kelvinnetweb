@@ -256,43 +256,113 @@
 <script>
 let paymentCompleted = false;
 
-document.getElementById('openBookingFormBtn').addEventListener('click', () => {
+// Wait for the DOM to be fully loaded before binding the events
+document.addEventListener('DOMContentLoaded', () => {
+  // Booking popup display logic
   const bookingPopup = document.getElementById('bookingPopup');
   if (bookingPopup) {
     bookingPopup.style.display = 'block';
   } else {
     console.error('Booking popup element not found');
   }
-});
 
-document.getElementById('closePopup').addEventListener('click', () => {
-  const bookingPopup = document.getElementById('bookingPopup');
-  if (bookingPopup) {
-    bookingPopup.style.display = 'none';
+  // Close booking popup
+  document.getElementById('closePopup').addEventListener('click', () => {
+    const bookingPopup = document.getElementById('bookingPopup');
+    if (bookingPopup) {
+      bookingPopup.style.display = 'none';
+    }
+  });
+
+  // Close booking popup when clicking outside
+  window.addEventListener('click', (event) => {
+    const bookingPopup = document.getElementById('bookingPopup');
+    if (event.target === bookingPopup) {
+      bookingPopup.style.display = 'none';
+    }
+  });
+
+  // Handle form submission and validation
+  document.getElementById('bookingForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    // Check if form fields are empty before proceeding
+    const customerName = document.getElementById("customerName").value;
+    const emailBooking = document.getElementById("emailBooking").value;
+    const websiteType = document.getElementById("websiteType").value;
+
+    if (!customerName || !emailBooking || !websiteType) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    if (!paymentCompleted) {
+      document.getElementById('bookingForm').style.display = 'none';
+      document.getElementById('paymentPopup').style.display = 'block';
+      return;
+    }
+    submitBookingForm();
+  });
+
+  // Function to mark payment as completed
+  function markPaymentAsCompleted() {
+    paymentCompleted = true;
+    alert("Payment Successful! You can now submit your booking.");
+    document.getElementById('submitBookingBtn').disabled = false;
   }
-});
 
-window.addEventListener('click', (event) => {
-  const bookingPopup = document.getElementById('bookingPopup');
-  if (event.target === bookingPopup) {
-    bookingPopup.style.display = 'none';
+  // Payment details submission logic
+  async function sendPaymentDetailsToGoogleSheets(paymentDetails) {
+    try {
+      const response = await fetch("https://script.google.com/macros/s/AKfycbzHyZyU0gb67q2X1wKNTBRsYzEplfss8CKeQak0WZogEhxzV_A3XUtYabYRMxs80TjRcg/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "payment", data: paymentDetails })
+      });
+      const data = await response.json();
+      if (data.result !== "success") {
+        alert("Error submitting payment details. Please try again.");
+      } else {
+        markPaymentAsCompleted();
+      }
+    } catch (error) {
+      console.error("Error submitting payment details:", error);
+      alert("Error processing payment. Please try again.");
+    }
   }
-});
 
-function markPaymentAsCompleted() {
-  paymentCompleted = true;
-  alert("Payment Successful! You can now submit your booking.");
-  document.getElementById('submitBookingBtn').disabled = false;
-}
+  // Event listener for the "book now" button
+  document.getElementById("bookNowButton").addEventListener("click", async () => {
+    const bookingForm = document.getElementById("bookingForm");
+    if (bookingForm.checkValidity()) {
+      const bookingData = {
+        customerName: document.getElementById("customerName").value,
+        email: document.getElementById("emailBooking").value,
+        websiteType: document.getElementById("websiteType").value,
+        customerId: document.getElementById("customerId").value
+      };
 
-document.getElementById('bookingForm').addEventListener('submit', (event) => {
-  event.preventDefault();
-  if (!paymentCompleted) {
-    document.getElementById('bookingForm').style.display = 'none';
-    document.getElementById('paymentPopup').style.display = 'block';
-    return;
-  }
-  submitBookingForm();
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbzHyZyU0gb67q2X1wKNTBRsYzEplfss8CKeQak0WZogEhxzV_A3XUtYabYRMxs80TjRcg/exec", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ type: "booking", data: bookingData })
+        });
+        const data = await response.json();
+        if (data.result === "success") {
+          document.getElementById("bookingPopup").style.display = 'none';
+          document.getElementById("paymentPopup").style.display = 'block';
+        } else {
+          alert("Error submitting booking. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error submitting booking:", error);
+        alert("There was an error submitting the booking. Please try again.");
+      }
+    } else {
+      alert("Please fill out the form completely before booking.");
+    }
+  });
 });
 
 async function getConversionRate(fromCurrency, toCurrency = "ZAR") {
@@ -328,56 +398,6 @@ async function calculateDownpayment(websiteType, paymentMethod) {
   }
 
   return amountToPay;
-}
-
-document.getElementById("bookNowButton").addEventListener("click", async () => {
-  const bookingForm = document.getElementById("bookingForm");
-  if (bookingForm.checkValidity()) {
-    const bookingData = {
-      customerName: document.getElementById("customerName").value,
-      email: document.getElementById("emailBooking").value,
-      websiteType: document.getElementById("websiteType").value,
-      customerId: document.getElementById("customerId").value
-    };
-
-    try {
-      const response = await fetch("https://script.google.com/macros/s/AKfycbzHyZyU0gb67q2X1wKNTBRsYzEplfss8CKeQak0WZogEhxzV_A3XUtYabYRMxs80TjRcg/exec", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "booking", data: bookingData })
-      });
-      const data = await response.json();
-      if (data.result === "success") {
-        document.getElementById("bookingPopup").style.display = 'none';
-        document.getElementById("paymentPopup").style.display = 'block';
-      } else {
-        alert("Error submitting booking. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error submitting booking:", error);
-      alert("There was an error submitting the booking. Please try again.");
-    }
-  }
-});
-
-// Send payment details to Google Sheets
-async function sendPaymentDetailsToGoogleSheets(paymentDetails) {
-  try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbzHyZyU0gb67q2X1wKNTBRsYzEplfss8CKeQak0WZogEhxzV_A3XUtYabYRMxs80TjRcg/exec", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: "payment", data: paymentDetails })
-    });
-    const data = await response.json();
-    if (data.result !== "success") {
-      alert("Error submitting payment details. Please try again.");
-    } else {
-      markPaymentAsCompleted();
-    }
-  } catch (error) {
-    console.error("Error submitting payment details:", error);
-    alert("Error processing payment. Please try again.");
-  }
 }
 </script>
 </body>
