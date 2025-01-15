@@ -111,7 +111,7 @@
   </div>
 </section>
 
-    <section class="why-contact">
+   <section class="why-contact">
   <div class="content-wrapper">
       <br>
      <h2>Why Give Us Your Work</h2>
@@ -120,33 +120,28 @@
       <button id="openBookingFormBtn" class="btn" aria-label="Open booking form"> &#9776; Web Booking Enquiry</button>
   </div>
 </section>
-    <!-- Popup Booking Form -->
-<div id="bookingPopup" class="popup">
-  <div class="popup-content">
-    <span id="closePopup" class="close-btn">&times;</span>
-    <h3>Web Enquiry Form</h3>
-    <form id="bookingForm">
-      <label for="customerName">Your Name:</label>
-      <input type="text" id="customerName" placeholder="Enter Full Name" name="customerName" required><br>
 
-      <label for="websiteType">Website Type:</label>
-      <select id="websiteType" name="websiteType" required>
-        <option value="Portfolio">Portfolio</option>
-        <option value="E-commerce">E-commerce</option>
-        <option value="Blog">Blog</option>
-        <option value="Business">Business</option>
-      </select><br>
-
-      <label for="customerId">Your ID:</label>
-      <input type="text" id="customerId" placeholder="Enter Your Id" name="customerId" required><br>
-
-      <label for="email">Email Address:</label>
-     <input type="email" id="emailBooking" placeholder="Enter Your Email" name="email" autocomplete="email" required><br>
-
-      <button type="submit" class="submit-btn" id="bookNowButton">Enquire For a Website</button>
-    </form>
-  </div>
+<!-- Popup form -->
+<div id="bookingPopup" class="popup" style="display:none;">
+    <div class="popup-content">
+        <span id="closePopup" class="close">&times;</span>
+        <h2>Book Your Service</h2>
+        <form id="bookingForm">
+            <label for="customerName">Name</label>
+            <input type="text" id="customerName" name="customerName" required>
+            <label for="emailBooking">Email</label>
+            <input type="email" id="emailBooking" name="emailBooking" required>
+            <label for="websiteType">Website Type</label>
+            <select id="websiteType" name="websiteType" required>
+                <option value="business">Business</option>
+                <option value="portfolio">Portfolio</option>
+                <option value="ecommerce">E-commerce</option>
+            </select>
+            <button type="submit">Submit Booking</button>
+        </form>
+    </div>
 </div>
+
     <!-- Payment Popup Form -->
 <div id="paymentPopup" class="popup">
   <div class="popup-content">
@@ -258,22 +253,22 @@ let paymentCompleted = false;
 
 // Wait for the DOM to be fully loaded before binding the events
 document.addEventListener('DOMContentLoaded', () => {
-  // Get the "book now" button
-  const bookNowButton = document.getElementById("bookNowButton");
+  // Get the "openBookingFormBtn" button
+  const openBookingFormBtn = document.getElementById("openBookingFormBtn");
 
-  // Show the booking popup when the "book now" button is clicked
-  if (bookNowButton) {
-    bookNowButton.addEventListener("click", () => {
+  // Show the booking popup when the button is clicked
+  if (openBookingFormBtn) {
+    openBookingFormBtn.addEventListener("click", () => {
       const bookingPopup = document.getElementById('bookingPopup');
       if (bookingPopup) {
         bookingPopup.style.display = 'block'; // Show the booking popup
       }
     });
   } else {
-    console.error('Book now button not found');
+    console.error('Open Booking Form button not found');
   }
 
-  // Close booking popup
+  // Close booking popup when the close button is clicked
   document.getElementById('closePopup').addEventListener('click', () => {
     const bookingPopup = document.getElementById('bookingPopup');
     if (bookingPopup) {
@@ -281,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Close booking popup when clicking outside
+  // Close booking popup when clicking outside of the popup
   window.addEventListener('click', (event) => {
     const bookingPopup = document.getElementById('bookingPopup');
     if (event.target === bookingPopup) {
@@ -308,6 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('paymentPopup').style.display = 'block';
       return;
     }
+
     submitBookingForm();
   });
 
@@ -338,42 +334,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Event listener for the "book now" button (for submitting the form)
-  document.getElementById("bookNowButton").addEventListener("click", async () => {
-    const bookingForm = document.getElementById("bookingForm");
-    if (bookingForm.checkValidity()) {
-      const bookingData = {
-        customerName: document.getElementById("customerName").value,
-        email: document.getElementById("emailBooking").value,
-        websiteType: document.getElementById("websiteType").value,
-        customerId: document.getElementById("customerId").value
-      };
+  // Submit booking form after payment is completed
+  async function submitBookingForm() {
+    const bookingData = {
+      customerName: document.getElementById("customerName").value,
+      email: document.getElementById("emailBooking").value,
+      websiteType: document.getElementById("websiteType").value,
+      customerId: document.getElementById("customerId").value
+    };
 
-      try {
-        const response = await fetch("https://script.google.com/macros/s/AKfycbzHyZyU0gb67q2X1wKNTBRsYzEplfss8CKeQak0WZogEhxzV_A3XUtYabYRMxs80TjRcg/exec", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ type: "booking", data: bookingData })
-        });
-        const data = await response.json();
-        if (data.result === "success") {
-          document.getElementById("bookingPopup").style.display = 'none';
-          document.getElementById("paymentPopup").style.display = 'block';
-        } else {
-          alert("Error submitting booking. Please try again.");
-        }
-      } catch (error) {
-        console.error("Error submitting booking:", error);
-        alert("There was an error submitting the booking. Please try again.");
+    try {
+      const response = await fetch("https://script.google.com/macros/s/AKfycbzHyZyU0gb67q2X1wKNTBRsYzEplfss8CKeQak0WZogEhxzV_A3XUtYabYRMxs80TjRcg/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "booking", data: bookingData })
+      });
+      const data = await response.json();
+      if (data.result === "success") {
+        document.getElementById("bookingPopup").style.display = 'none';
+        alert("Your booking has been submitted successfully!");
+      } else {
+        alert("Error submitting booking. Please try again.");
       }
-    } else {
-      alert("Please fill out the form completely before booking.");
+    } catch (error) {
+      console.error("Error submitting booking:", error);
+      alert("There was an error submitting the booking. Please try again.");
     }
-  });
+  }
 });
 </script>
 </body>
-    <br><br>
+<br>
 <footer>
     <div class="footer-container">
         <p>&copy; 2024 ADJUS<span>Developers Net</span>. All Rights Reserved.</p>
