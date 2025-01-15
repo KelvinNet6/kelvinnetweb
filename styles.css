@@ -23,14 +23,15 @@ header {
     background: url('Capture.PNG') no-repeat center center/cover;
     color: white;
     padding: 40px 0;
-    height: 80vh;
+    min-height: 80vh; /* Use min-height instead of height */
 }
+
 .about-header {
     position: relative;
     background: url('Capture.PNG') no-repeat center center/cover;
     color: white;
     padding: 40px 0;
-    height: 80vh;
+    min-height: 80vh; /* Use min-height instead of height */
 }
 
 .overlay {
@@ -47,8 +48,9 @@ header {
     position: relative;
     z-index: 2;
 }
+
 span {
-   color: lightblue;
+    color: lightblue;
 }
 
 .nav-container {
@@ -152,6 +154,7 @@ h2 {
 .about-btn:hover {
     background-color: lightblue;
 }
+
 @media (min-width: 768px) {
     .about-container {
         flex-direction: row; 
@@ -171,10 +174,8 @@ h2 {
         margin-left: 20px;
     }
 
-    .about-image img {
-        width: 100%;
-        height: auto;
-        border-radius: 10px;
+    header, .about-header {
+        min-height: 80vh; /* Retain larger size on big screens */
     }
 }
 
@@ -193,6 +194,10 @@ h2 {
     .about-image img {
         width: 100%;
         height: auto;
+    }
+
+    header, .about-header {
+        min-height: 60vh; /* Adjust height for smaller screens */
     }
 }
 
