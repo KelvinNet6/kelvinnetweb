@@ -258,12 +258,19 @@ let paymentCompleted = false;
 
 // Wait for the DOM to be fully loaded before binding the events
 document.addEventListener('DOMContentLoaded', () => {
-  // Booking popup display logic
-  const bookingPopup = document.getElementById('bookingPopup');
-  if (bookingPopup) {
-    bookingPopup.style.display = 'block';
+  // Get the "book now" button
+  const bookNowButton = document.getElementById("bookNowButton");
+
+  // Show the booking popup when the "book now" button is clicked
+  if (bookNowButton) {
+    bookNowButton.addEventListener("click", () => {
+      const bookingPopup = document.getElementById('bookingPopup');
+      if (bookingPopup) {
+        bookingPopup.style.display = 'block'; // Show the booking popup
+      }
+    });
   } else {
-    console.error('Booking popup element not found');
+    console.error('Book now button not found');
   }
 
   // Close booking popup
@@ -331,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Event listener for the "book now" button
+  // Event listener for the "book now" button (for submitting the form)
   document.getElementById("bookNowButton").addEventListener("click", async () => {
     const bookingForm = document.getElementById("bookingForm");
     if (bookingForm.checkValidity()) {
@@ -364,41 +371,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
-async function getConversionRate(fromCurrency, toCurrency = "ZAR") {
-  const url = 'https://www.freeforexapi.com/api/live?pairs=GBPZAR,EURZAR,USDZAR';
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.rates[toCurrency] || 1;
-  } catch (error) {
-    console.error("Error fetching conversion rate:", error);
-    return 1;
-  }
-}
-
-const websitePrices = {
-  "portfolio": 2000,
-  "blog": 2500,
-  "business": 6000,
-  "ecommerce": 8450
-};
-
-async function calculateDownpayment(websiteType, paymentMethod) {
-  const amountInZAR = websitePrices[websiteType];
-  let amountToPay = amountInZAR;
-
-  const paymentCurrency = paymentMethod === "Visa" ? document.getElementById("visaCurrency").value :
-                          paymentMethod === "PayPal" ? document.getElementById("paypalCurrency").value : 
-                          document.getElementById("applepayCurrency").value;
-
-  if (paymentCurrency && paymentCurrency !== "ZAR") {
-    const conversionRate = await getConversionRate(paymentCurrency);
-    amountToPay = amountInZAR / conversionRate;
-  }
-
-  return amountToPay;
-}
 </script>
 </body>
     <br><br>
