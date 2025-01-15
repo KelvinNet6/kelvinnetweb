@@ -23,14 +23,14 @@ header {
     background: url('Capture.PNG') no-repeat center center/cover;
     color: white;
     padding: 40px 0;
-    height: 100vh;
+    height: 80vh;
 }
 .about-header {
     position: relative;
     background: url('Capture.PNG') no-repeat center center/cover;
     color: white;
     padding: 40px 0;
-    height: 100vh;
+    height: 80vh;
 }
 
 .overlay {
