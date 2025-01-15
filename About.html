@@ -142,7 +142,7 @@
     </div>
 </div>
 
-    <!-- Payment Popup Form -->
+<!-- Payment Popup Form -->
 <div id="paymentPopup" class="popup">
   <div class="popup-content">
     <span id="closePopup" class="close-btn">&times;</span>
@@ -159,9 +159,14 @@
           <label for="paypal"><i class="fab fa-paypal"></i> PayPal</label>
         </div>
         <div class="payment-option" id="applePayOption">
-  <input type="radio" name="paymentMethod" value="ApplePay" id="applePay">
-  <label for="applePay"><i class="fab fa-apple"></i> Apple Pay</label>
-</div>
+          <input type="radio" name="paymentMethod" value="ApplePay" id="applePay">
+          <label for="applePay"><i class="fab fa-apple"></i> Apple Pay</label>
+        </div>
+        <!-- MasterCard Option -->
+        <div class="payment-option" id="masterCardOption">
+          <input type="radio" name="paymentMethod" value="MasterCard" id="masterCard">
+          <label for="masterCard"><i class="fab fa-cc-mastercard"></i> MasterCard</label>
+        </div>
       </div>
       
       <!-- Visa Card Payment Fields -->
@@ -177,20 +182,34 @@
       </div>
 
       <!-- PayPal Payment Fields -->
-      <div id="paypalPayment" class="payment-method-fields">
+      <div id="paypalPayment" class="payment-method-fields" style="display:none;">
         <label for="paypalEmail">PayPal Email:</label>
         <input type="email" id="paypalEmail" name="paypalEmail" placeholder="Enter your PayPal email" required><br>
       </div>
 
-      <!-- Crypto Payment Fields -->
-     <div id="applePayPayment" class="payment-method-fields">
-  <label for="applePayToken">Apple Pay Token:</label>
-  <input type="text" id="applePayToken" name="applePayToken" placeholder="Enter your Apple Pay token" required><br>
-</div>
+      <!-- Apple Pay Payment Fields -->
+      <div id="applePayPayment" class="payment-method-fields" style="display:none;">
+        <label for="applePayToken">Apple Pay Token:</label>
+        <input type="text" id="applePayToken" name="applePayToken" placeholder="Enter your Apple Pay token" required><br>
+      </div>
+
+      <!-- MasterCard Payment Fields -->
+      <div id="masterCardPayment" class="payment-method-fields" style="display:none;">
+        <label for="masterCardNumber">Card Number:</label>
+        <input type="text" id="masterCardNumber" name="masterCardNumber" placeholder="Enter your MasterCard number" required><br>
+
+        <label for="masterCardExpiry">Expiry Date:</label>
+        <input type="text" id="masterCardExpiry" name="masterCardExpiry" placeholder="MM/YY" required><br>
+
+        <label for="masterCardCVC">CVC:</label>
+        <input type="text" id="masterCardCVC" name="masterCardCVC" placeholder="Enter CVC" required><br>
+      </div>
+
       <button type="submit" class="submit-btn" id="makePaymentButton">Make Payment</button>
     </form>
   </div>
 </div>
+
 <!-- JavaScript-->
 <script>
     function toggleSidebar() {
@@ -284,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Handle form submission and validation
+  // Handle form submission and validation for booking
   document.getElementById('bookingForm').addEventListener('submit', (event) => {
     event.preventDefault();
 
@@ -361,6 +380,77 @@ document.addEventListener('DOMContentLoaded', () => {
       alert("There was an error submitting the booking. Please try again.");
     }
   }
+
+  // Payment Method Selection Handler
+  const paymentMethodRadios = document.querySelectorAll('input[name="paymentMethod"]');
+  const visaPayment = document.getElementById('visaPayment');
+  const paypalPayment = document.getElementById('paypalPayment');
+  const applePayPayment = document.getElementById('applePayPayment');
+  const masterCardPayment = document.getElementById('masterCardPayment');
+
+  // Function to hide all payment fields
+  function hideAllPaymentFields() {
+    visaPayment.style.display = 'none';
+    paypalPayment.style.display = 'none';
+    applePayPayment.style.display = 'none';
+    masterCardPayment.style.display = 'none';
+  }
+
+  // Event listener for payment method change
+  paymentMethodRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      hideAllPaymentFields(); // Hide all fields initially
+
+      // Show the relevant payment fields based on the selected payment method
+      if (document.getElementById('visa').checked) {
+        visaPayment.style.display = 'block';
+      } else if (document.getElementById('paypal').checked) {
+        paypalPayment.style.display = 'block';
+      } else if (document.getElementById('applePay').checked) {
+        applePayPayment.style.display = 'block';
+      } else if (document.getElementById('masterCard').checked) {
+        masterCardPayment.style.display = 'block';
+      }
+    });
+  });
+
+  // Initialize payment method based on default selected option (Visa)
+  if (document.getElementById('visa').checked) {
+    visaPayment.style.display = 'block';
+  }
+
+  // Payment Form Submission Logic
+  document.getElementById('paymentForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const paymentDetails = {};
+
+    // Capture payment details based on selected payment method
+    if (document.getElementById('visa').checked) {
+      paymentDetails.paymentMethod = 'Visa';
+      paymentDetails.cardNumber = document.getElementById('visaCardNumber').value;
+      paymentDetails.expiry = document.getElementById('visaExpiry').value;
+      paymentDetails.cvc = document.getElementById('visaCVC').value;
+    } else if (document.getElementById('paypal').checked) {
+      paymentDetails.paymentMethod = 'PayPal';
+      paymentDetails.paypalEmail = document.getElementById('paypalEmail').value;
+    } else if (document.getElementById('applePay').checked) {
+      paymentDetails.paymentMethod = 'Apple Pay';
+      paymentDetails.applePayToken = document.getElementById('applePayToken').value;
+    } else if (document.getElementById('masterCard').checked) {
+      paymentDetails.paymentMethod = 'MasterCard';
+      paymentDetails.cardNumber = document.getElementById('masterCardNumber').value;
+      paymentDetails.expiry = document.getElementById('masterCardExpiry').value;
+      paymentDetails.cvc = document.getElementById('masterCardCVC').value;
+    }
+
+    // Validate payment details and send them to Google Sheets
+    if (paymentDetails.paymentMethod && Object.values(paymentDetails).every(value => value)) {
+      sendPaymentDetailsToGoogleSheets(paymentDetails);
+    } else {
+      alert("Please fill in all the payment details.");
+    }
+  });
 });
 </script>
 </body>
