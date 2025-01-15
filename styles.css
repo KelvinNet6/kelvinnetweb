@@ -20,9 +20,10 @@ a {
 }
 
 header {
-    background: url('OIP.jpeg') no-repeat center center/cover;
+    background: url('Capture.PNG') no-repeat center center/cover;
     color: white;
-    padding: 40px 0;
+    padding: 80px 0;
+    heign: 100vh;
 }
 .about-header {
     position: relative;
