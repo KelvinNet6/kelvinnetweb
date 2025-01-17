@@ -401,6 +401,8 @@ footer p {
 /* Social Media Icons */
 .footer-social {
   margin-top: 20px;
+  display: flex; /* Ensure the icons are in a row */
+  justify-content: center; /* Center the icons horizontally */
 }
 
 .footer-social a {
@@ -441,6 +443,12 @@ footer p {
     width: 70%; /* Adjusted button width to fit better on smaller screens */
     text-align: center;
     padding: 10px 20px; /* Ensure proper padding */
+  }
+
+  /* Ensure footer icons stay in a row on mobile */
+  .footer-social {
+    flex-direction: row; /* Make sure the icons are on a single line */
+    justify-content: center; /* Center the icons horizontally */
   }
 }
 
