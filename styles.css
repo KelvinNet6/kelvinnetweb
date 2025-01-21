@@ -20,15 +20,15 @@ a {
 }
 
 header {
-    background: url('Capture.PNG') no-repeat center center/cover;
+    background: url('Capture.PNG') no-repeat center top/cover; /* Adjust focus to the top */
     background-color: #111111;
     padding: 40px 0;
-    min-height: 80vh; /* Ensure it occupies at least 80% of viewport height */
+    min-height: 80vh;
 }
 
 .about-header {
     position: relative;
-    background: url('Capture.PNG') no-repeat center center/cover;
+    background: url('Capture.PNG') no-repeat center top/cover; /* Adjust focus to the top */
     background-color: #111111;
     padding: 40px 0;
     min-height: 80vh;
