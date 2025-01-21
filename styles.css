@@ -20,26 +20,20 @@ a {
 }
 
 header {
-    background: url('Capture.PNG') no-repeat center top/fit; /* Adjust focus to the top */
-    background-color: #111111;
+    background: url('Capture.PNG') no-repeat center center/cover; /* Image fills the header */
+    background-color: #111111; /* Fallback for unsupported image loading */
+    color: white;
     padding: 40px 0;
-    min-height: 80vh;
+    min-height: 80vh; /* Minimum height for the section */
 }
 
 .about-header {
     position: relative;
-    background: url('Capture.PNG') no-repeat center top/fit; /* Adjust focus to the top */
-    background-color: #111111;
+    background: url('Capture.PNG') no-repeat center center/cover; /* Image fills the header */
+    background-color: #111111; /* Fallback for unsupported image loading */
+    color: white;
     padding: 40px 0;
-    min-height: 80vh;
-}
-
-/* Fine-tune for larger screens */
-@media (min-width: 1200px) {
-    header, .about-header {
-        background-position: center center;
-        background-size: contain; /* Prevent zooming */
-    }
+    min-height: 80vh; /* Minimum height for the section */
 }
 
 .overlay {
