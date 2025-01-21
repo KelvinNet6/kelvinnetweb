@@ -23,7 +23,7 @@ header {
     background: url('Capture.PNG') no-repeat center center/cover;
     color: white;
     padding: 40px 0;
-    min-height: 80vh; /* Use min-height instead of height */
+    min-height: 80vh; /* Ensure it occupies at least 80% of viewport height */
 }
 
 .about-header {
@@ -31,7 +31,15 @@ header {
     background: url('Capture.PNG') no-repeat center center/cover;
     color: white;
     padding: 40px 0;
-    min-height: 80vh; /* Use min-height instead of height */
+    min-height: 80vh;
+}
+
+/* Fine-tune for larger screens */
+@media (min-width: 1200px) {
+    header, .about-header {
+        background-position: center center;
+        background-size: contain; /* Prevent zooming */
+    }
 }
 
 .overlay {
