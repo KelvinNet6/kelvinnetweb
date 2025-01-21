@@ -21,7 +21,7 @@ a {
 
 header {
     background: url('Capture.PNG') no-repeat center center/cover;
-    color: white;
+    background-color: #111111;
     padding: 40px 0;
     min-height: 80vh; /* Ensure it occupies at least 80% of viewport height */
 }
@@ -29,7 +29,7 @@ header {
 .about-header {
     position: relative;
     background: url('Capture.PNG') no-repeat center center/cover;
-    color: white;
+    background-color: #111111;
     padding: 40px 0;
     min-height: 80vh;
 }
